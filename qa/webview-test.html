@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>웹뷰 QA 테스트</title>
+  <meta name="description" content="빵모닝 인앱 웹뷰 QA용 — 긴 스크롤, 앱 딥링크, 허용 밖 링크, 리다이렉트, 특수 스킴 동작 확인" />
+  <style>
+    :root { --brand:#EB5D34; --bg:#fff; --surface:#F6F6F7; --text:#1F1F1F; --muted:#6B6B70; --line:#E6E6EA; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#141416; --surface:#1F1F23; --text:#F2F2F2; --muted:#A0A0A8; --line:#2C2C32; } }
+    :root[data-theme="dark"] { --bg:#141416; --surface:#1F1F23; --text:#F2F2F2; --muted:#A0A0A8; --line:#2C2C32; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:"Noto Sans KR",-apple-system,system-ui,sans-serif; line-height:1.5; padding:0 20px calc(24px + env(safe-area-inset-bottom)); }
+    h1 { font-size:22px; margin:24px 0 4px; }
+    .sub { color:var(--muted); font-size:13px; margin:0 0 16px; }
+    section { border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; }
+    h2 { font-size:15px; margin:0 0 8px; }
+    .k { display:inline-block; min-width:44px; padding:2px 8px; border-radius:999px; background:var(--surface); font-size:12px; color:var(--muted); margin-right:6px; }
+    a.btn { display:block; margin:8px 0; padding:12px 14px; border-radius:10px; background:var(--brand); color:#fff; font-weight:700; text-decoration:none; text-align:center; }
+    a.btn.ghost { background:var(--surface); color:var(--text); }
+    .expect { font-size:13px; color:var(--muted); margin:0 0 6px; }
+    .filler { height: 480px; background: repeating-linear-gradient(180deg, var(--surface) 0 40px, var(--bg) 40px 80px); border-radius:12px; display:grid; place-items:center; color:var(--muted); font-size:13px; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:12px; background:var(--surface); padding:1px 5px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <h1 id="top">웹뷰 QA 테스트 페이지</h1>
+  <p class="sub">각 버튼의 기대 동작을 확인하세요. 스크롤 유지 검증용 긴 영역이 중간중간 있습니다.</p>
+
+  <section>
+    <h2><span class="k">A</span>앱 딥링크 — 빵집 상세</h2>
+    <p class="expect">기대: 빵집 상세가 웹뷰 위에 열리고, 뒤로가기로 이 위치(스크롤 유지)로 돌아온다. GA <code>webview_deeplink_click(link_type=bakery)</code>.</p>
+    <a class="btn" href="bbangmorning://bakery/6ad2cd1db2ac97c886e8c34b" data-bakery>르쿠에르 상세 열기</a>
+    <a class="btn ghost" href="bbangmorning://bakery/000000000000000000000000">없는 빵집 ID (404 안내 확인)</a>
+  </section>
+
+  <div class="filler">스크롤 영역 1 — 아래로 계속 내려가세요</div>
+
+  <section>
+    <h2><span class="k">B</span>허용 호스트 안 이동</h2>
+    <p class="expect">기대: 같은 웹뷰 안에서 이동. 앱바 ←로 돌아온다. Android 하드웨어 뒤로가기는 웹 뒤로.</p>
+    <a class="btn ghost" href="../events/sample.html">샘플 이벤트 페이지로 이동(같은 호스트)</a>
+    <a class="btn ghost" href="#top">페이지 맨 위로(해시 이동)</a>
+  </section>
+
+  <section>
+    <h2><span class="k">C</span>허용 호스트 밖 링크</h2>
+    <p class="expect">기대: 외부 브라우저로 열리고 웹뷰는 그대로 남는다. 허용 밖 페이지가 웹뷰에 한 프레임도 그려지면 안 된다.</p>
+    <a class="btn ghost" href="https://bbangmorning.com">bbangmorning.com (https, 허용 밖)</a>
+    <a class="btn ghost" href="http://example.com">example.com (http)</a>
+    <a class="btn ghost" href="redirect-out.html">같은 호스트 → meta refresh 로 허용 밖 이동</a>
+    <a class="btn ghost" href="redirect-out-js.html">같은 호스트 → JS location 으로 허용 밖 이동</a>
+  </section>
+
+  <div class="filler">스크롤 영역 2</div>
+
+  <section>
+    <h2><span class="k">D</span>web?url= 링크</h2>
+    <p class="expect">기대: 허용 호스트면 같은 웹뷰에서 로드, 허용 밖이면 외부 브라우저.</p>
+    <a class="btn ghost" href="bbangmorning://web?url=https%3A%2F%2Fyoungyoung000.github.io%2Fbbangmorning-assets%2Fevents%2Fsample.html">web?url= → 허용 호스트(github.io)</a>
+    <a class="btn ghost" href="bbangmorning://web?url=https%3A%2F%2Fevent.bbangmorning.com%2Fevents%2Fsample.html">web?url= → event.bbangmorning.com</a>
+    <a class="btn ghost" href="bbangmorning://web?url=https%3A%2F%2Fbbangmorning.com">web?url= → 허용 밖(bbangmorning.com)</a>
+  </section>
+
+  <section>
+    <h2><span class="k">E</span>특수 스킴</h2>
+    <p class="expect">기대: tel·mailto는 외부 실행, 나머지는 무시(스낵바 또는 무반응, 크래시 없음).</p>
+    <a class="btn ghost" href="tel:01000000000">tel: 전화</a>
+    <a class="btn ghost" href="mailto:bbangmorning24@gmail.com">mailto: 메일</a>
+    <a class="btn ghost" href="sms:01000000000">sms: 문자(미허용)</a>
+    <a class="btn ghost" href="intent://scan/#Intent;scheme=zxing;package=com.google.zxing.client.android;end">intent: (차단)</a>
+    <a class="btn ghost" href="javascript:alert('x')">javascript: (차단)</a>
+  </section>
+
+  <div class="filler">스크롤 영역 3</div>
+
+  <section>
+    <h2><span class="k">F</span>다른 앱 라우트(웹뷰 닫힘 — Q5 기존 동작)</h2>
+    <p class="expect">기대: 탭 전환·챌린지 목록으로 이동하며 웹뷰는 닫힌다(이번 런 확정 동작).</p>
+    <a class="btn ghost" href="bbangmorning://challenges">챌린지 목록</a>
+    <a class="btn ghost" href="bbangmorning://tab/map">빵지도 탭</a>
+    <a class="btn ghost" href="bbangmorning://market/product/000000000000000000000000">마켓 상품(없는 ID)</a>
+    <a class="btn ghost" href="bbangmorning://unknown/route">미지원 라우트(스낵바)</a>
+  </section>
+
+  <section>
+    <h2><span class="k">G</span>새 창·외부 이미지</h2>
+    <p class="expect">기대: target=_blank 는 같은 웹뷰 판정을 탄다. 허용 밖 호스트 이미지는 서브리소스라 표시된다.</p>
+    <a class="btn ghost" href="../events/sample.html" target="_blank">target=_blank 같은 호스트</a>
+    <a class="btn ghost" href="https://bbangmorning.com" target="_blank">target=_blank 허용 밖</a>
+    <img alt="외부 호스트 이미지(jsDelivr)" src="https://cdn.jsdelivr.net/gh/youngyoung000/bbangmorning-assets@main/creators/placeholder.png" width="64" height="64" onerror="this.alt='외부 이미지 로드 실패(파일 없음이면 정상)'" />
+  </section>
+
+  <div class="filler">스크롤 영역 4 — 맨 아래</div>
+  <p class="sub">끝. <code>?bakery=빵집ID</code> 쿼리를 붙이면 A의 첫 버튼이 그 빵집으로 바뀝니다(로컬 QA 시드용).</p>
+
+  <script>
+    (function () {
+      try {
+        var id = new URLSearchParams(location.search).get('bakery');
+        if (id && /^[0-9a-fA-F]{24}$/.test(id)) {
+          var a = document.querySelector('a[data-bakery]');
+          if (a) a.setAttribute('href', 'bbangmorning://bakery/' + id);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
