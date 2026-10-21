@@ -49,6 +49,7 @@
     <p class="expect">기대: 외부 브라우저로 열리고 웹뷰는 그대로 남는다. 허용 밖 페이지가 웹뷰에 한 프레임도 그려지면 안 된다.</p>
     <a class="btn ghost" href="https://bbangmorning.com">bbangmorning.com (https, 허용 밖)</a>
     <a class="btn ghost" href="http://example.com">example.com (http)</a>
+    <a class="btn ghost" href="https://httpbin.org/redirect-to?url=https%3A%2F%2Fbbangmorning.com%2F&amp;status_code=302">허용 호스트(httpbin.org) → 302 로 허용 밖 이동(로컬 QA 는 httpbin.org 를 허용 호스트에 넣고 확인)</a>
     <a class="btn ghost" href="redirect-out.html">같은 호스트 → meta refresh 로 허용 밖 이동</a>
     <a class="btn ghost" href="redirect-out-js.html">같은 호스트 → JS location 으로 허용 밖 이동</a>
   </section>
