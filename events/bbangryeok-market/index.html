@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
 
 <!-- ============================================================
   빵력장터 안내 페이지 — 인앱 웹뷰용 (event.bbangmorning.com/events/bbangryeok-market/)
@@ -128,16 +128,21 @@
 <style>
   /* 레이아웃: 한 칼럼(최대 520px) · 히어로는 마젠타→핑크 그라데이션 + 옐로 안내 카드 · 탭 상단 고정 · 업체 카드 2열 */
   :root {
-    /* 행사 브랜드 (참고 SVG) — 핑크·옐로 중심 */
-    --pink: #FF8FFF;
-    --pink-light: #FFC2FF;
-    --pink-pale: #FFEAFF;
-    --magenta: #DD1AE2;
-    --magenta-deep: #B812BC;
-    --yellow: #FFF27A;
-    --yellow-soft: #FFFFB4;
-    --yellow-pale: #FFFCE3;
-    --blue: #0085FF;
+    /* 행사 브랜드 — 참고 SVG(10.2 디자인 중간 파이널)에 실제로 쓰인 값만 사용 */
+    --pink: #FF8FFF;          /* 핑크 면(fill .s27) */
+    --pink-light: #FFCDFF;    /* 가장 많이 쓰인 그라데이션 스톱 */
+    --pink-mid: #F6CEFB;      /* 홀로 그라데이션 스톱 */
+    --pink-pale: #FBF0FC;     /* 연핑크 면 fill */
+    --magenta: #DD1AE2;       /* 홀로 레터링 외곽선 stroke */
+    --magenta-deep: #A520A5;  /* 진마젠타 면 fill */
+    --purple: #740CA5;        /* 스티커 외곽선 stroke */
+    --yellow: #FFFFB4;        /* 옐로 면 fill */
+    --yellow-soft: #FFFFC5;   /* 옐로 밝은 면 fill */
+    --yellow-pale: #FFFFE2;   /* 옐로 그라데이션 끝 */
+    --yellow-line: #827F1A;   /* 옐로 면 외곽선 stroke */
+    --blue: #0085FF;          /* 블루 면 fill (보조) */
+    --grey: #EFEFEF;          /* 회색 면 fill */
+    --grey-line: #B8BCC3;     /* 회색 면 fill */
     /* 앱 디자인 시스템 (app_colors.dart) */
     --orange: #EB5D34;
     --orange-pressed: #D24E28;
@@ -148,9 +153,9 @@
     --line: #EBECED;
     --border: #E0E0E0;
     --bg: #FFFFFF;
-    --page-bg: #FFF7FA;
+    --page-bg: #FBF0FC;
     /* 타이포 */
-    --font-display: "Bagel Fat One", "Pretendard", "Noto Sans KR", sans-serif;
+    --font-display: "Jua", "Pretendard", "Noto Sans KR", sans-serif;
     --font-body: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", system-ui, sans-serif;
     --radius: 12px;
     --radius-lg: 16px;
@@ -179,7 +184,7 @@
 
   .page { max-width: 520px; margin: 0 auto; background: var(--bg); min-height: 100%; position: relative; }
   @media (min-width: 560px) {
-    .page { box-shadow: 0 0 0 1px var(--line), 0 20px 60px rgba(221, 26, 226, .10); }
+    .page { box-shadow: 0 0 0 1px var(--line), 0 20px 60px rgba(165, 32, 165, .12); }
   }
   .wrap { padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
 
@@ -192,20 +197,20 @@
   /* ---------- 히어로 ---------- */
   .hero {
     position: relative; overflow: hidden; color: #fff;
-    background: linear-gradient(180deg, #D81CDC 0%, #F455F7 42%, var(--pink) 78%, var(--pink-light) 100%);
+    background: linear-gradient(180deg, var(--magenta-deep) 0%, var(--magenta) 38%, var(--pink) 78%, var(--pink-light) 100%);
   }
   .hero-in { position: relative; z-index: 2; padding-block: 18px 0; }
   .hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .hero-top img { height: 30px; width: auto; filter: drop-shadow(0 2px 6px rgba(120, 0, 130, .25)); }
+  .hero-top img { height: 30px; width: auto; filter: drop-shadow(0 2px 6px rgba(116, 12, 165, .3)); }
   .hero-logo { margin: 18px auto 0; width: min(80%, 320px); position: relative; }
-  .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 5px rgba(255, 255, 255, .95)) drop-shadow(0 10px 20px rgba(140, 0, 150, .28)); }
+  .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 5px rgba(255, 255, 255, .95)) drop-shadow(0 10px 20px rgba(116, 12, 165, .3)); }
   .hero-art { position: absolute; pointer-events: none; z-index: 1; }
   .hero-cloud { left: -60px; top: 92px; width: 190px; opacity: .55; mix-blend-mode: screen; }
-  .hero-cookie { right: 2px; top: 168px; width: 68px; transform: rotate(14deg); z-index: 3; filter: drop-shadow(0 6px 10px rgba(120, 0, 130, .3)); }
+  .hero-cookie { right: 2px; top: 168px; width: 68px; transform: rotate(14deg); z-index: 3; filter: drop-shadow(0 6px 10px rgba(116, 12, 165, .3)); }
   .hero-infos {
     margin: 18px 0 0; padding: 12px 14px; list-style: none;
-    background: var(--yellow); color: var(--ink); border-radius: var(--radius-lg);
-    display: grid; gap: 7px; box-shadow: 0 8px 20px rgba(120, 0, 130, .18);
+    background: var(--yellow); color: var(--ink); border-radius: var(--radius-lg); border: 1.5px solid var(--yellow-line);
+    display: grid; gap: 7px; box-shadow: 0 8px 20px rgba(116, 12, 165, .2);
   }
   .hero-infos li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; }
   .hero-infos .ic { flex: none; width: 20px; text-align: center; font-size: 13px; line-height: 1.35; }
@@ -237,7 +242,7 @@
   section.block { padding-block: 30px 8px; scroll-margin-top: calc(var(--tab-h) + env(safe-area-inset-top, 0px)); }
   .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 16px; }
   .sec-title {
-    margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: .01em;
+    margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 27px; line-height: 1.1; letter-spacing: 0;
     position: relative; display: inline-block; isolation: isolate; color: var(--ink);
   }
   .sec-title::after {
@@ -274,7 +279,7 @@
   .card-lineup b { color: var(--ink-3); font-weight: 700; margin-right: 4px; }
   .benefit {
     display: flex; gap: 5px; align-items: flex-start; font-size: 12px; line-height: 1.35; color: var(--ink);
-    background: var(--yellow-pale); border: 1px solid var(--yellow); border-radius: 10px; padding: 7px 8px;
+    background: var(--yellow-pale); border: 1px solid rgba(130, 127, 26, .35); border-radius: 10px; padding: 7px 8px;
   }
   .benefit .em { flex: none; font-size: 12px; }
   .benefit b { color: var(--magenta-deep); font-weight: 800; margin-right: 3px; }
@@ -301,9 +306,9 @@
   .map-svg .zone rect { stroke-width: 1.5; }
   .map-svg .zone-event rect { fill: var(--pink-light); stroke: var(--pink); }
   .map-svg .zone-photo rect { fill: #fff; stroke: var(--magenta); stroke-dasharray: 4 3; }
-  .map-svg .zone-eat rect { fill: var(--yellow); stroke: #E6D96A; }
-  .map-svg .zone-info rect { fill: var(--yellow-soft); stroke: #E6D96A; }
-  .map-svg .zone-toilet rect { fill: #E9EBEF; stroke: #B9BEC7; }
+  .map-svg .zone-eat rect { fill: var(--yellow); stroke: var(--yellow-line); }
+  .map-svg .zone-info rect { fill: var(--yellow-soft); stroke: var(--yellow-line); }
+  .map-svg .zone-toilet rect { fill: var(--grey); stroke: var(--grey-line); }
   .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--ink-2); font-weight: 500; }
   .legend li { display: flex; align-items: center; gap: 6px; }
   .legend i { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid; display: inline-block; }
@@ -318,21 +323,21 @@
   .event-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .event-img.contain img {
     inset: 18px; width: calc(100% - 36px); height: calc(100% - 36px); object-fit: contain;
-    filter: drop-shadow(0 10px 18px rgba(221, 26, 226, .18));
+    filter: drop-shadow(0 10px 18px rgba(116, 12, 165, .18));
   }
   .event-zone {
     display: inline-flex; justify-self: start; align-items: center; gap: 6px;
     font-size: 12px; font-weight: 800; color: var(--magenta-deep); background: var(--yellow);
     border-radius: 999px; padding: 4px 10px; letter-spacing: .01em;
   }
-  .event-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 23px; line-height: 1.15; letter-spacing: .01em; text-wrap: balance; color: var(--ink); }
+  .event-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1.15; letter-spacing: 0; text-wrap: balance; color: var(--ink); }
   .event-desc { margin: 0; color: var(--ink-2); font-size: 15px; }
   .event-time { margin: 0; font-size: 13px; font-weight: 700; color: var(--magenta-deep); display: flex; gap: 6px; align-items: center; }
   .event-time::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--magenta); }
 
   /* ---------- 푸터 ---------- */
   footer.foot {
-    margin-top: 36px; background: var(--yellow-pale); border-top: 1px solid var(--yellow);
+    margin-top: 36px; background: var(--yellow-pale); border-top: 1.5px solid var(--yellow);
     padding-block: 24px calc(28px + env(safe-area-inset-bottom, 0px));
     font-size: 13px; color: var(--ink-2);
   }
@@ -379,9 +384,9 @@
           <li><i style="background:#fff;border-color:var(--magenta)"></i>빵집 부스</li>
           <li><i style="background:var(--pink-light);border-color:var(--pink)"></i>이벤트존</li>
           <li><i style="background:#fff;border-color:var(--magenta);border-style:dashed"></i>포토존</li>
-          <li><i style="background:var(--yellow);border-color:#E6D96A"></i>취식존</li>
-          <li><i style="background:var(--yellow-soft);border-color:#E6D96A"></i>안내</li>
-          <li><i style="background:#E9EBEF;border-color:#B9BEC7"></i>화장실</li>
+          <li><i style="background:var(--yellow);border-color:var(--yellow-line)"></i>취식존</li>
+          <li><i style="background:var(--yellow-soft);border-color:var(--yellow-line)"></i>안내</li>
+          <li><i style="background:var(--grey);border-color:var(--grey-line)"></i>화장실</li>
         </ul>
       </div>
     </section>
@@ -462,7 +467,7 @@
     if (text != null) n.textContent = text;
     return n;
   }
-  svg.appendChild(el('rect', { x: 4, y: 4, width: 352, height: 266, rx: 14, fill: '#fff', stroke: '#E8C9EA', 'stroke-width': 2 }));
+  svg.appendChild(el('rect', { x: 4, y: 4, width: 352, height: 266, rx: 14, fill: '#fff', stroke: 'var(--pink-mid)', 'stroke-width': 2 }));
   (D.map.zones || []).forEach((z) => {
     const g = el('g', { class: `zone zone-${z.type}` });
     g.appendChild(el('rect', { x: z.x, y: z.y, width: z.w, height: z.h, rx: 10 }));
