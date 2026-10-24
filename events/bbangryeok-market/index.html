@@ -359,7 +359,7 @@
   .floor-lb { margin: 0 0 10px; font-family: var(--font-body); font-weight: 800; font-size: 20px; line-height: 1.2; color: var(--ink); }
   .map-svg { width: 100%; height: auto; display: block; max-width: 100%; overflow: hidden; }
   .map-svg text { font-family: var(--font-body); fill: var(--ink); }
-  .map-svg .wall { fill: none; stroke: #000; stroke-width: 4; }
+  .map-svg .wall { fill: none; stroke: #000; stroke-width: 2.5; }
   .map-svg .zone-lb { font-size: 12px; font-weight: 800; }
   .map-svg .zone-event rect, .map-svg .zone-eat rect { fill: var(--yellow); }
   .map-svg .zone-stairs rect { fill: var(--grey); }
@@ -551,9 +551,10 @@
     return n;
   }
   // 여러 줄 라벨을 박스 가운데에 세로 정렬
-  function label(cx, cy, str, cls, lh) {
+  // 세로 가운데: dominant-baseline 은 iOS WebKit 이 무시하므로 기준선을 직접 계산(대략 글자 크기의 0.36 아래)
+  function label(cx, cy, str, cls, lh, fs) {
     const arr = String(str).split('\n');
-    const t = el('text', { x: cx, y: cy - ((arr.length - 1) * lh) / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: cls });
+    const t = el('text', { x: cx, y: cy - ((arr.length - 1) * lh) / 2 + fs * 0.36, 'text-anchor': 'middle', class: cls });
     arr.forEach((ln, i) => t.appendChild(el('tspan', { x: cx, dy: i ? lh : 0 }, ln)));
     return t;
   }
@@ -577,7 +578,7 @@
       const g = el('g', { class: `zone zone-${z.type}` });
       if (z.type === 'event') pressable(g, () => jumpTo($('events'), 'events'), `${z.label} — 이벤트 안내로 이동`);
       g.appendChild(el('rect', { x: z.x, y: z.y, width: z.w, height: z.h }));
-      g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb', 14));
+      g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb', 14, 12));
       svg.appendChild(g);
     });
     (f.booths || []).forEach((bt) => {
@@ -591,7 +592,7 @@
         card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
       }, `${b.name} 부스 — 업체 카드로 이동`);
       g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h }));
-      g.appendChild(label(bt.x + bt.w / 2, bt.y + bt.h / 2, nm, 'booth-lb', 12));
+      g.appendChild(label(bt.x + bt.w / 2, bt.y + bt.h / 2, nm, 'booth-lb', 12, 10));
       svg.appendChild(g);
     });
     (f.walls || []).forEach((d) => svg.appendChild(el('path', { class: 'wall', d })));
