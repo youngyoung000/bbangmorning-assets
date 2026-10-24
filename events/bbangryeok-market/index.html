@@ -12,7 +12,7 @@
 <!-- ============================================================
   빵력장터 안내 페이지 — 인앱 웹뷰용 (event.bbangmorning.com/events/bbangryeok-market/)
   ▶ 내용 수정은 아래 <script id="bbang-data"> 블록만 고치면 됩니다.
-    · hero     : 히어로 안내 3줄(장소·시간·입장)
+    · hero     : 히어로 안내 3줄 (icon: pin | clock | gift) — 히어로 레이아웃은 Figma Rcwuimq8N7kbMunCUD4gHT 노드 1:8 기준(2026-10-24)
     · bakeries : 참여 업체 카드 (사진·라인업·혜택·앱 빵집 ID) — booth 는 도면 연결용 키(화면엔 안 보임)
                  앱에 상세 페이지가 없는 업체는 "id": null → 버튼이 앱 대신 라인업·혜택 전체 팝업을 연다
     · map      : 공간 안내 도면 (좌표 0~360 × 0~300) — zones(시설·구역)·booths(빵집 부스)·entrance(입구 화살표)
@@ -31,9 +31,9 @@
   },
   "hero": {
     "infos": [
-      { "icon": "📍", "label": "장소", "value": "서울 성수동 ○○○ 1층 (PM 확정 필요)" },
-      { "icon": "⏰", "label": "시간", "value": "11:00 – 19:00 · 마지막 날은 18:00까지" },
-      { "icon": "🎟️", "label": "입장", "value": "무료 · 빵모닝 앱 설치 시 웰컴 선물" }
+      { "icon": "pin",   "value": "성수동2가 278-33 어브 스튜디오" },
+      { "icon": "clock", "value": "11:00 – 19:00 · 마지막 날은 18:00까지" },
+      { "icon": "gift",  "value": "빵모닝 앱 설치 시 선착순 선물" }
     ]
   },
   "tabs": [
@@ -205,30 +205,25 @@
     padding-block: 7px; text-align: center; letter-spacing: .01em;
   }
 
-  /* ---------- 히어로 ---------- */
-  .hero { position: relative; overflow: hidden; color: #fff; background: var(--pink); }
-  .hero-in { position: relative; z-index: 2; padding-block: 16px 0; }
-  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .hero-top img { height: 30px; width: auto; filter: drop-shadow(0 1.5px 0 var(--magenta)) drop-shadow(0 3px 6px rgba(165, 32, 165, .35)); }
-  .hero-logo { margin: 16px auto 0; width: min(80%, 320px); position: relative; }
-  .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1)) drop-shadow(0 10px 20px rgba(165, 32, 165, .3)); }
+  /* ---------- 히어로 (Figma 1:8 기준: 어두운 바탕 + 배경 이미지 50% + 로고 스택 + 반투명 안내 카드) ---------- */
+  .hero { position: relative; overflow: hidden; color: #fff; background: #151215; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; opacity: .5; pointer-events: none; }
   .hero-art { position: absolute; pointer-events: none; z-index: 1; }
   .hero-cloud { left: -60px; top: 88px; width: 200px; opacity: .7; }
-  .hero-cookie { right: 0; top: 160px; width: 66px; transform: rotate(14deg); z-index: 3; filter: drop-shadow(0 6px 10px rgba(165, 32, 165, .3)); }
+  .hero-in { position: relative; z-index: 2; padding-block: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .hero-logos { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+  .hero-logos .stack { width: min(238px, 100%); height: auto; }
+  .hero-logos .date { width: min(256px, 100%); height: auto; }
   .hero-infos {
-    margin: 16px 0 0; padding: 11px 12px; list-style: none;
-    background: var(--yellow); color: var(--ink); border-radius: var(--radius); border: 1.5px solid var(--yellow-line);
+    margin: 0; padding: 11px 12px; list-style: none; width: 256px; max-width: 100%;
+    background: rgba(0, 0, 0, .5); color: #fff; border-radius: var(--radius);
     display: grid; gap: 6px; box-shadow: 0 8px 20px rgba(165, 32, 165, .22);
   }
-  .hero-infos li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; }
-  .hero-infos .ic { flex: none; width: 20px; text-align: center; font-size: 13px; line-height: 1.35; }
-  .hero-infos .lb { font-weight: 800; color: var(--magenta-deep); flex: none; min-width: 28px; }
-  .hero-infos .vl { font-weight: 500; min-width: 0; }
-  .hero-sponsor {
-    position: relative; z-index: 2; margin-top: 14px;
-    display: flex; justify-content: center; align-items: center; padding-block: 0 16px;
-  }
-  .hero-sponsor img { height: 22px; width: auto; filter: drop-shadow(0 1.5px 0 var(--magenta)) drop-shadow(0 3px 6px rgba(165, 32, 165, .35)); }
+  .hero-infos li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; font-weight: 500; }
+  .hero-infos svg { width: 18px; height: 18px; flex: none; }
+  .hero-infos .vl { min-width: 0; }
+  .hero-sponsor { display: flex; justify-content: center; align-items: center; }
+  .hero-sponsor img { height: 23px; width: auto; }
 
   /* ---------- 고정 탭 ---------- */
   .tabs {
@@ -276,20 +271,16 @@
   .card-name { font-size: 15px; font-weight: 800; line-height: 1.25; margin: 0 0 1px; color: var(--ink); }
   .kv { margin: 0; font-size: 12px; line-height: 1.4; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .kv b { color: var(--magenta-deep); font-weight: 800; margin-right: 5px; }
+  /* CTA — Figma 1:82 기준: 옐로 #FFFFB4 · radius 10 · 높이 38 · 13px Bold · 아이콘 14px(icons8 forward) · gap 2 */
   .cta {
     display: flex; align-items: center; justify-content: center; gap: 2px; margin-top: auto;
-    height: 38px; padding: 0 0 2px; border: 0; border-radius: 10px; background: var(--yellow); color: var(--ink);
-    font: inherit; font-size: 13px; font-weight: 800; line-height: 1; text-decoration: none; white-space: nowrap;
+    height: 38px; padding: 0; border: 0; border-radius: 10px; background: var(--yellow); color: var(--ink);
+    font: inherit; font-size: 13px; font-weight: 700; line-height: 1; text-decoration: none; white-space: nowrap;
     cursor: pointer; width: 100%; transition: background .15s;
   }
   .cta:active { background: var(--yellow-soft); }
   .cta span { display: block; }
-  /* 화살표는 글자 흐름 안의 요소로 두고 vertical-align 으로 글자 가운데에 맞춘다(폰트가 바뀌어도 함께 움직임) */
-  .cta .chev {
-    display: inline-block; width: .42em; height: .42em; margin-left: .35em; margin-top: -.08em;
-    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; border-radius: 1px;
-    transform: rotate(-45deg); vertical-align: middle;
-  }
+  .cta .chev { display: block; width: 14px; height: 14px; flex: none; }
 
   /* ---------- 라인업 팝업 (앱 상세 페이지가 없는 업체) ---------- */
   .modal { position: fixed; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
@@ -368,17 +359,16 @@
   <div class="draft wrap" id="draft" hidden></div>
 
   <header class="hero" id="top">
+    <img class="hero-bg" src="assets/hero-bg.webp" alt="" width="780" height="994">
     <img class="hero-art hero-cloud" src="assets/cloud-white.webp" alt="">
-    <img class="hero-art hero-cookie" src="assets/bbang-cookie.webp" alt="">
     <div class="wrap hero-in">
-      <div class="hero-top">
-        <img src="assets/logo-newbbangworld.webp" alt="NEW BBANG WORLD" width="512" height="118">
-        <img src="assets/logo-date.webp" alt="2026 10.30 – 11.01 FRI – SUN" width="585" height="118">
+      <div class="hero-logos">
+        <img class="stack" src="assets/logo-stack.webp" alt="NEW BBANG WORLD 빵력장터" width="520" height="393">
+        <img class="date" src="assets/logo-date-pink.webp" alt="2026 10.30 – 11.01 FRI – SUN" width="560" height="114">
       </div>
-      <div class="hero-logo"><img src="assets/logo-bbangryeok.webp" alt="빵력장터" width="803" height="273"></div>
       <ul class="hero-infos" id="hero-infos"></ul>
+      <div class="hero-sponsor"><img src="assets/logo-sponsor.webp" alt="빵모닝 × toss" width="523" height="82"></div>
     </div>
-    <div class="hero-sponsor"><img src="assets/logo-sponsor.webp" alt="빵모닝 × toss" width="523" height="82"></div>
   </header>
 
   <nav class="tabs wrap" id="tabs" role="tablist" aria-label="안내 메뉴"></nav>
@@ -441,9 +431,14 @@
   /* 초안 띠 */
   if (D.meta && D.meta.draft) { $('draft').textContent = D.meta.draftNote || '초안 미리보기'; $('draft').hidden = false; }
 
-  /* 히어로 안내 */
+  /* 히어로 안내 — 아이콘은 Figma(1:8)에서 가져온 라인 아이콘 3종 */
+  const ICONS = {
+    pin:   '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11.25 7.5C11.25 8.74264 10.2426 9.75 9 9.75C7.75736 9.75 6.75 8.74264 6.75 7.5C6.75 6.25736 7.75736 5.25 9 5.25C10.2426 5.25 11.25 6.25736 11.25 7.5ZM15 7.5C15 10.8137 12 13.5 9 16.5C6 13.5 3 10.8137 3 7.5C3 4.18629 5.68629 1.5 9 1.5C12.3137 1.5 15 4.18629 15 7.5Z" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    clock: '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 5.55309V9.45309L11.6 10.7531M15.5 9.45309C15.5 13.0429 12.5899 15.9531 9 15.9531C5.41015 15.9531 2.5 13.0429 2.5 9.45309C2.5 5.86324 5.41015 2.95309 9 2.95309C12.5899 2.95309 15.5 5.86324 15.5 9.45309Z" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    gift:  '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 5.65619H6.075C5.64402 5.65619 5.2307 5.48498 4.92595 5.18024C4.6212 4.87549 4.45 4.46217 4.45 4.03119C4.45 3.60021 4.6212 3.18689 4.92595 2.88214C5.2307 2.57739 5.64402 2.40619 6.075 2.40619C8.35 2.40619 9 5.65619 9 5.65619ZM9 5.65619H11.925C12.356 5.65619 12.7693 5.48498 13.074 5.18024C13.3788 4.87549 13.55 4.46217 13.55 4.03119C13.55 3.60021 13.3788 3.18689 13.074 2.88214C12.7693 2.57739 12.356 2.40619 11.925 2.40619C9.65 2.40619 9 5.65619 9 5.65619ZM9 5.65619L9 15.4062M2.5 10.2062H15.5M2.5 8.90619V5.65619H15.5V8.90619M3.8 10.2062V13.4562C3.8 14.1562 3.8 14.5062 3.9375 14.7687C4.0581 14.9983 4.2508 15.1909 4.4804 15.3115C4.7429 15.4062 5.0929 15.4062 5.7929 15.4062H12.2071C12.9071 15.4062 13.2571 15.4062 13.5196 15.3115C13.7492 15.1909 13.9419 14.9983 14.0625 14.7687C14.2 14.5062 14.2 14.1562 14.2 13.4562V10.2062" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
   $('hero-infos').innerHTML = (D.hero.infos || []).map((i) =>
-    `<li><span class="ic">${esc(i.icon)}</span><span class="lb">${esc(i.label)}</span><span class="vl">${esc(i.value)}</span></li>`).join('');
+    `<li>${ICONS[i.icon] || ''}<span class="vl">${esc(i.value)}</span></li>`).join('');
 
   /* 탭 */
   const tabs = $('tabs');
@@ -466,7 +461,7 @@
   $('bakery-count').textContent = `${D.bakeries.length}곳`;
   $('cards').innerHTML = D.bakeries.map((b, i) => {
     byBooth[b.booth] = i;
-    const label = `<span>${esc(D.ctaLabel || '라인업 상세보기')}<i class="chev" aria-hidden="true"></i></span>`;
+    const label = `<span>${esc(D.ctaLabel || '라인업 상세보기')}</span><img class="chev" src="assets/icon-forward.png" alt="" width="42" height="42">`;
     const cta = b.id
       ? `<a class="cta" href="bbangmorning://bakery/${esc(b.id)}" data-bakery="${esc(b.id)}">${label}</a>`
       : `<button class="cta" type="button" data-popup="${i}">${label}</button>`;
