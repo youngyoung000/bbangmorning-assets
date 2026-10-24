@@ -571,6 +571,8 @@
   const floorsEl = $('map-floors');
   const PATTERNS = { pink: 'assets/pattern-pink.webp', yellow: 'assets/pattern-yellow.webp' };
   const TILE = 120; // 패턴 한 칸 크기(도면 좌표 단위) — 숫자를 키우면 글자 무늬가 커진다
+  const PATTERN_OPACITY = 0.4; // 무늬 진하기(0~1) — 바탕 단색 위에 패턴 이미지를 이 투명도로 얹는다
+  const BASE = { pink: 'var(--pink)', yellow: 'var(--yellow)' };
   (D.map.floors || []).forEach((f, fi) => {
     const block = document.createElement('div'); block.className = 'floor-block';
     const h = document.createElement('h3'); h.className = 'floor-lb'; h.textContent = f.label; block.appendChild(h);
@@ -581,7 +583,8 @@
     const pat = (k) => `url(#pat-${fi}-${k})`;
     Object.entries(PATTERNS).forEach(([k, href]) => {
       const pt = el('pattern', { id: `pat-${fi}-${k}`, patternUnits: 'userSpaceOnUse', x: vb[0], y: vb[1], width: TILE, height: TILE });
-      const im = el('image', { href, width: TILE, height: TILE, preserveAspectRatio: 'xMidYMid slice' });
+      pt.appendChild(el('rect', { width: TILE, height: TILE, style: `fill:${BASE[k]}` }));
+      const im = el('image', { href, width: TILE, height: TILE, preserveAspectRatio: 'xMidYMid slice', opacity: PATTERN_OPACITY });
       im.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
       pt.appendChild(im); defs.appendChild(pt);
     });
