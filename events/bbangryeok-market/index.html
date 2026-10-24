@@ -311,11 +311,10 @@
   }
   .sheet-photo { aspect-ratio: 16 / 9; max-width: 100%; border-radius: var(--radius); overflow: hidden; background: var(--fill); margin-top: 6px; }
   .sheet-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .sheet-name { margin: 14px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1.2; color: var(--ink); }
+  .sheet-name { margin: 14px 0 0; font-family: var(--font-body); font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--ink); }
   .sheet-kv { margin: 14px 0 0; }
   .sheet-kv dt { font-size: 12px; font-weight: 800; color: var(--magenta-deep); margin: 0 0 4px; }
   .sheet-kv dd { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink); }
-  .sheet-note { margin: 16px 0 0; font-size: 12px; color: var(--ink-3); }
 
   /* ---------- 공간 안내 (라인+면) ---------- */
   .map-svg { width: 100%; height: auto; display: block; max-width: 100%; }
@@ -348,7 +347,7 @@
     inset: 16px; width: calc(100% - 32px); height: calc(100% - 32px); object-fit: contain;
     filter: drop-shadow(0 10px 18px rgba(116, 12, 165, .18));
   }
-  .event-title { margin: 2px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 21px; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance; color: var(--ink); }
+  .event-title { margin: 0; font-family: var(--font-body); font-weight: 800; font-size: 18px; line-height: 1.3; text-wrap: balance; color: var(--ink); }
   .event-desc { margin: 0; color: var(--ink-2); font-size: 14px; }
   .event-time { margin: 0; font-size: 13px; font-weight: 700; color: var(--magenta-deep); display: flex; gap: 6px; align-items: center; }
   .event-time::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
@@ -428,7 +427,6 @@
     <h3 class="sheet-name" id="sheet-name"></h3>
     <dl class="sheet-kv"><dt>라인업</dt><dd id="sheet-lineup"></dd></dl>
     <dl class="sheet-kv" id="sheet-benefit-wrap"><dt>혜택</dt><dd id="sheet-benefit"></dd></dl>
-    <p class="sheet-note">이 업체는 빵모닝 앱에 상세 페이지가 아직 없어요. 현장 부스에서 만나보세요.</p>
   </div>
 </div>
 
@@ -560,8 +558,8 @@
   /* 이벤트 */
   $('event-list').innerHTML = D.events.map((ev) =>
     `<article class="event">
-      <div class="event-img ${ev.imageFit === 'contain' ? 'contain' : ''}"><img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy"></div>
       <h3 class="event-title">${esc(ev.title)}</h3>
+      <div class="event-img ${ev.imageFit === 'contain' ? 'contain' : ''}"><img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy"></div>
       <p class="event-desc">${esc(ev.desc)}</p>
       ${ev.time ? `<p class="event-time">${esc(ev.time)}</p>` : ''}
     </article>`).join('');
