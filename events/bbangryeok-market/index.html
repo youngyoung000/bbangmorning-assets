@@ -14,6 +14,7 @@
   ▶ 내용 수정은 아래 <script id="bbang-data"> 블록만 고치면 됩니다.
     · hero     : 히어로 안내 3줄(장소·시간·입장)
     · bakeries : 참여 업체 카드 (사진·라인업·혜택·앱 빵집 ID) — booth 는 도면 연결용 키(화면엔 안 보임)
+                 앱에 상세 페이지가 없는 업체는 "id": null → 버튼이 앱 대신 라인업·혜택 전체 팝업을 연다
     · map      : 공간 안내 도면 (좌표 0~360 × 0~300) — zones(시설·구역)·booths(빵집 부스)·entrance(입구 화살표)
     · events   : 이벤트 섹션
   ▶ 디자인 색·폰트는
@@ -66,11 +67,11 @@
       "photo": "assets/bakery-6.webp",
       "lineup": "샌드베이글 · 소금빵 · 명란소금빵 · 두바이초코 쫀득빵",
       "benefit": "두바이 쫀득쿠키 서울 선공개" },
-    { "id": "6ada2a28136d4cf4ae479fe7", "booth": "B-3", "name": "시호쿠키",
+    { "id": null, "booth": "B-3", "name": "시호쿠키",
       "photo": "assets/bakery-7.webp",
       "lineup": "푸딩케이크 · 망고산도 · 마카다미아 스카치 쿠키 · 메론 쿠키슈",
       "benefit": "쿠키 세트 구매 시 스티커 증정" },
-    { "id": "6ada2a28136d4cf4ae479fe8", "booth": "B-4", "name": "밀로제과",
+    { "id": null, "booth": "B-4", "name": "밀로제과",
       "photo": "assets/bakery-8.webp",
       "lineup": "치아바타 · 통팥빵 · 쑥밤팥",
       "benefit": "통팥빵 2개 구매 시 1개 더" }
@@ -175,6 +176,7 @@
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card.flash { animation: none; } }
   body {
@@ -275,14 +277,45 @@
   .kv { margin: 0; font-size: 12px; line-height: 1.4; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .kv b { color: var(--magenta-deep); font-weight: 800; margin-right: 5px; }
   .cta {
-    display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: auto;
-    height: 38px; border-radius: 10px; background: var(--yellow); color: var(--ink);
-    font-size: 13px; font-weight: 800; line-height: 1; text-decoration: none; white-space: nowrap;
-    transition: background .15s;
+    display: flex; align-items: center; justify-content: center; gap: 2px; margin-top: auto;
+    height: 38px; padding: 0 0 2px; border: 0; border-radius: 10px; background: var(--yellow); color: var(--ink);
+    font: inherit; font-size: 13px; font-weight: 800; line-height: 1; text-decoration: none; white-space: nowrap;
+    cursor: pointer; width: 100%; transition: background .15s;
   }
   .cta:active { background: var(--yellow-soft); }
-  .cta span { display: block; padding-top: 1px; }
-  .cta svg { display: block; width: 14px; height: 14px; flex: none; }
+  .cta span { display: block; }
+  /* 화살표는 글자 흐름 안의 요소로 두고 vertical-align 으로 글자 가운데에 맞춘다(폰트가 바뀌어도 함께 움직임) */
+  .cta .chev {
+    display: inline-block; width: .42em; height: .42em; margin-left: .35em; margin-top: -.08em;
+    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; border-radius: 1px;
+    transform: rotate(-45deg); vertical-align: middle;
+  }
+
+  /* ---------- 라인업 팝업 (앱 상세 페이지가 없는 업체) ---------- */
+  .modal { position: fixed; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; }
+  .modal-bg { position: absolute; inset: 0; background: rgba(41, 42, 43, .6); }
+  .sheet {
+    position: relative; width: 100%; max-width: 520px; max-height: 86%; overflow: auto;
+    background: var(--bg); border-radius: 20px 20px 0 0;
+    padding: 10px var(--gutter-r) calc(20px + env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+    box-shadow: 0 -10px 40px rgba(116, 12, 165, .25);
+    animation: sheet-in .22s ease-out;
+  }
+  @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .sheet { animation: none; } }
+  .sheet-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 12px; }
+  .sheet-close {
+    position: absolute; top: 14px; right: var(--gutter-r); width: 36px; height: 36px; border-radius: 50%;
+    border: 0; background: var(--fill); color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .sheet-photo { aspect-ratio: 16 / 9; max-width: 100%; border-radius: var(--radius); overflow: hidden; background: var(--fill); margin-top: 6px; }
+  .sheet-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .sheet-name { margin: 14px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1.2; color: var(--ink); }
+  .sheet-kv { margin: 14px 0 0; }
+  .sheet-kv dt { font-size: 12px; font-weight: 800; color: var(--magenta-deep); margin: 0 0 4px; }
+  .sheet-kv dd { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink); }
+  .sheet-note { margin: 16px 0 0; font-size: 12px; color: var(--ink-3); }
 
   /* ---------- 공간 안내 (라인+면) ---------- */
   .map-svg { width: 100%; height: auto; display: block; max-width: 100%; }
@@ -386,6 +419,19 @@
   </footer>
 </div>
 
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-name">
+  <div class="modal-bg" id="modal-bg"></div>
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" id="sheet-close" type="button" aria-label="닫기">✕</button>
+    <div class="sheet-photo" id="sheet-photo"></div>
+    <h3 class="sheet-name" id="sheet-name"></h3>
+    <dl class="sheet-kv"><dt>라인업</dt><dd id="sheet-lineup"></dd></dl>
+    <dl class="sheet-kv" id="sheet-benefit-wrap"><dt>혜택</dt><dd id="sheet-benefit"></dd></dl>
+    <p class="sheet-note">이 업체는 빵모닝 앱에 상세 페이지가 아직 없어요. 현장 부스에서 만나보세요.</p>
+  </div>
+</div>
+
 <script>
 (function () {
   const D = JSON.parse(document.getElementById('bbang-data').textContent);
@@ -421,17 +467,48 @@
   const byBooth = {};
   $('bakery-count').textContent = `${D.bakeries.length}곳`;
   $('cards').innerHTML = D.bakeries.map((b, i) => {
-    byBooth[b.booth] = b;
-    return `<article class="card" id="bakery-${esc(b.id)}" data-booth="${esc(b.booth)}">
+    byBooth[b.booth] = i;
+    const label = `<span>${esc(D.ctaLabel || '라인업 상세보기')}<i class="chev" aria-hidden="true"></i></span>`;
+    const cta = b.id
+      ? `<a class="cta" href="bbangmorning://bakery/${esc(b.id)}" data-bakery="${esc(b.id)}">${label}</a>`
+      : `<button class="cta" type="button" data-popup="${i}">${label}</button>`;
+    return `<article class="card" id="card-${i}" data-booth="${esc(b.booth)}">
       <div class="card-photo"><img src="${esc(b.photo)}" alt="${esc(b.name)} 대표 빵" loading="${i < 4 ? 'eager' : 'lazy'}"></div>
       <div class="card-body">
         <h3 class="card-name">${esc(b.name)}</h3>
         <p class="kv"><b>라인업</b>${esc(b.lineup)}</p>
         ${b.benefit ? `<p class="kv"><b>혜택</b>${esc(b.benefit)}</p>` : ''}
-        <a class="cta" href="bbangmorning://bakery/${esc(b.id)}" data-bakery="${esc(b.id)}"><span>${esc(D.ctaLabel || '라인업 상세보기')}</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.5 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        ${cta}
       </div>
     </article>`;
   }).join('');
+
+  /* 라인업 팝업 — 앱 상세 페이지가 없는 업체 */
+  const modal = $('modal');
+  let lastFocus = null;
+  function openPopup(i) {
+    const b = D.bakeries[i]; if (!b) return;
+    $('sheet-photo').innerHTML = b.photo ? `<img src="${esc(b.photo)}" alt="${esc(b.name)} 대표 빵">` : '';
+    $('sheet-photo').hidden = !b.photo;
+    $('sheet-name').textContent = b.name;
+    $('sheet-lineup').textContent = b.lineup || '';
+    $('sheet-benefit-wrap').hidden = !b.benefit;
+    $('sheet-benefit').textContent = b.benefit || '';
+    lastFocus = document.activeElement;
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    $('sheet-close').focus();
+  }
+  function closePopup() {
+    modal.hidden = true; document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $('cards').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-popup]'); if (!btn) return;
+    openPopup(Number(btn.dataset.popup));
+  });
+  $('sheet-close').addEventListener('click', closePopup);
+  $('modal-bg').addEventListener('click', closePopup);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closePopup(); });
 
   /* 공간 안내 도면 — 라인(외곽) + 면(블록) */
   $('map-note').textContent = D.map.note || '';
@@ -453,14 +530,15 @@
     svg.appendChild(g);
   });
   (D.map.booths || []).forEach((bt) => {
-    const b = byBooth[bt.booth];
+    const idx = byBooth[bt.booth];
+    const b = idx != null ? D.bakeries[idx] : null;
     const nm = b ? b.name : '';
     const g = el('g', { class: 'booth', tabindex: 0, role: 'link', 'aria-label': `${nm} 부스` });
     g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h, rx: 2 }));
     g.appendChild(el('text', { x: bt.x + bt.w / 2, y: bt.y + bt.h / 2 + 3.5, 'text-anchor': 'middle' }, nm.length > 8 ? nm.slice(0, 8) + '…' : nm));
     const go = () => {
       if (!b) return;
-      const card = $(`bakery-${b.id}`); if (!card) return;
+      const card = $(`card-${idx}`); if (!card) return;
       lockSpy = true; setActive('bakeries');
       card.scrollIntoView({ behavior: smooth(), block: 'start' });
       card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
