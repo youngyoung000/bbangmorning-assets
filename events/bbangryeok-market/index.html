@@ -197,30 +197,30 @@
   /* ---------- 히어로 ---------- */
   .hero {
     position: relative; overflow: hidden; color: #fff;
-    background: linear-gradient(180deg, var(--magenta-deep) 0%, var(--magenta) 38%, var(--pink) 78%, var(--pink-light) 100%);
+    background: var(--pink);
   }
   .hero-in { position: relative; z-index: 2; padding-block: 18px 0; }
   .hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .hero-top img { height: 30px; width: auto; filter: drop-shadow(0 2px 6px rgba(116, 12, 165, .3)); }
+  .hero-top img { height: 30px; width: auto; filter: drop-shadow(0 1.5px 0 var(--magenta)) drop-shadow(0 3px 6px rgba(165, 32, 165, .35)); }
   .hero-logo { margin: 18px auto 0; width: min(80%, 320px); position: relative; }
-  .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 5px rgba(255, 255, 255, .95)) drop-shadow(0 10px 20px rgba(116, 12, 165, .3)); }
+  .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1)) drop-shadow(0 10px 20px rgba(165, 32, 165, .3)); }
   .hero-art { position: absolute; pointer-events: none; z-index: 1; }
-  .hero-cloud { left: -60px; top: 92px; width: 190px; opacity: .55; mix-blend-mode: screen; }
-  .hero-cookie { right: 2px; top: 168px; width: 68px; transform: rotate(14deg); z-index: 3; filter: drop-shadow(0 6px 10px rgba(116, 12, 165, .3)); }
+  .hero-cloud { left: -60px; top: 92px; width: 200px; opacity: .7; }
+  .hero-cookie { right: 2px; top: 168px; width: 68px; transform: rotate(14deg); z-index: 3; filter: drop-shadow(0 6px 10px rgba(165, 32, 165, .3)); }
   .hero-infos {
     margin: 18px 0 0; padding: 12px 14px; list-style: none;
     background: var(--yellow); color: var(--ink); border-radius: var(--radius-lg); border: 1.5px solid var(--yellow-line);
-    display: grid; gap: 7px; box-shadow: 0 8px 20px rgba(116, 12, 165, .2);
+    display: grid; gap: 7px; box-shadow: 0 8px 20px rgba(165, 32, 165, .22);
   }
   .hero-infos li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.35; }
   .hero-infos .ic { flex: none; width: 20px; text-align: center; font-size: 13px; line-height: 1.35; }
   .hero-infos .lb { font-weight: 800; color: var(--magenta-deep); flex: none; min-width: 28px; }
   .hero-infos .vl { font-weight: 500; min-width: 0; }
   .hero-sponsor {
-    position: relative; z-index: 2; margin-top: 18px; background: var(--magenta-deep);
-    display: flex; justify-content: center; align-items: center; padding-block: 11px;
+    position: relative; z-index: 2; margin-top: 16px;
+    display: flex; justify-content: center; align-items: center; padding-block: 0 18px;
   }
-  .hero-sponsor img { height: 22px; width: auto; }
+  .hero-sponsor img { height: 22px; width: auto; filter: drop-shadow(0 1.5px 0 var(--magenta)) drop-shadow(0 3px 6px rgba(165, 32, 165, .35)); }
 
   /* ---------- 고정 탭 ---------- */
   .tabs {
@@ -235,8 +235,8 @@
     height: 36px; padding: 0 16px; border-radius: 999px; cursor: pointer; white-space: nowrap;
     transition: background .15s, color .15s, border-color .15s;
   }
-  .tab:hover { border-color: var(--magenta); color: var(--magenta-deep); }
-  .tab[aria-selected="true"] { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+  .tab:hover { border-color: var(--pink); color: var(--magenta-deep); }
+  .tab[aria-selected="true"] { background: var(--pink); border-color: var(--pink); color: var(--ink); }
 
   /* ---------- 섹션 공통 ---------- */
   section.block { padding-block: 30px 8px; scroll-margin-top: calc(var(--tab-h) + env(safe-area-inset-top, 0px)); }
@@ -299,12 +299,12 @@
   .map-svg .zone-lb { font-size: 12px; font-weight: 800; fill: var(--ink); }
   .map-svg .zone-sub { font-size: 9px; font-weight: 500; fill: var(--ink-2); }
   .map-svg .booth { cursor: pointer; }
-  .map-svg .booth rect { fill: #fff; stroke: var(--magenta); stroke-width: 1.5; transition: fill .15s; }
-  .map-svg .booth:hover rect, .map-svg .booth:focus rect { fill: var(--pink-pale); }
+  .map-svg .booth rect { fill: var(--pink-light); stroke: var(--pink); stroke-width: 1.5; transition: fill .15s; }
+  .map-svg .booth:hover rect, .map-svg .booth:focus rect { fill: var(--pink); }
   .map-svg .booth .code { font-family: var(--font-display); font-size: 10px; fill: var(--magenta); letter-spacing: .04em; }
   .map-svg .booth .nm { font-size: 9px; font-weight: 700; fill: var(--ink); }
   .map-svg .zone rect { stroke-width: 1.5; }
-  .map-svg .zone-event rect { fill: var(--pink-light); stroke: var(--pink); }
+  .map-svg .zone-event rect { fill: var(--pink); stroke: var(--magenta); }
   .map-svg .zone-photo rect { fill: #fff; stroke: var(--magenta); stroke-dasharray: 4 3; }
   .map-svg .zone-eat rect { fill: var(--yellow); stroke: var(--yellow-line); }
   .map-svg .zone-info rect { fill: var(--yellow-soft); stroke: var(--yellow-line); }
@@ -337,7 +337,7 @@
 
   /* ---------- 푸터 ---------- */
   footer.foot {
-    margin-top: 36px; background: var(--yellow-pale); border-top: 1.5px solid var(--yellow);
+    margin-top: 36px; background: var(--yellow); border-top: 1.5px solid var(--yellow-line);
     padding-block: 24px calc(28px + env(safe-area-inset-bottom, 0px));
     font-size: 13px; color: var(--ink-2);
   }
@@ -351,7 +351,7 @@
   <div class="draft wrap" id="draft" hidden></div>
 
   <header class="hero" id="top">
-    <img class="hero-art hero-cloud" src="assets/cloud-pink.webp" alt="">
+    <img class="hero-art hero-cloud" src="assets/cloud-white.webp" alt="">
     <img class="hero-art hero-cookie" src="assets/bbang-cookie.webp" alt="">
     <div class="wrap hero-in">
       <div class="hero-top">
@@ -381,8 +381,8 @@
       <div class="map-wrap">
         <svg class="map-svg" id="map-svg" viewBox="0 0 360 300" role="img" aria-label="빵력장터 행사장 배치도"></svg>
         <ul class="legend">
-          <li><i style="background:#fff;border-color:var(--magenta)"></i>빵집 부스</li>
-          <li><i style="background:var(--pink-light);border-color:var(--pink)"></i>이벤트존</li>
+          <li><i style="background:var(--pink-light);border-color:var(--pink)"></i>빵집 부스</li>
+          <li><i style="background:var(--pink);border-color:var(--magenta)"></i>이벤트존</li>
           <li><i style="background:#fff;border-color:var(--magenta);border-style:dashed"></i>포토존</li>
           <li><i style="background:var(--yellow);border-color:var(--yellow-line)"></i>취식존</li>
           <li><i style="background:var(--yellow-soft);border-color:var(--yellow-line)"></i>안내</li>
