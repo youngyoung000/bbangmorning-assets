@@ -361,13 +361,13 @@
   .map-svg text { font-family: var(--font-body); fill: var(--ink); }
   .map-svg .wall { fill: none; stroke: #000; stroke-width: 2.5; }
   .map-svg .zone-lb { font-size: 12px; font-weight: 800; }
-  .map-svg .zone-event rect, .map-svg .zone-eat rect { fill: var(--yellow); }
+  .map-svg .zone-event rect, .map-svg .zone-eat rect { fill: var(--yellow); transition: opacity .15s; } /* 실제로는 패턴 이미지(assets/pattern-yellow.webp)로 덮임 */
   .map-svg .zone-stairs rect { fill: var(--grey); }
   .map-svg .zone-event { cursor: pointer; }
-  .map-svg .zone-event:hover rect, .map-svg .zone-event:focus rect { fill: var(--yellow-soft); }
-  .map-svg .booth rect { fill: var(--pink); transition: fill .15s; }
+  .map-svg .zone-event:hover rect, .map-svg .zone-event:focus rect { opacity: .75; }
+  .map-svg .booth rect { fill: var(--pink); transition: opacity .15s; } /* 실제로는 패턴 이미지(assets/pattern-pink.webp)로 덮임 */
   .map-svg .booth.link { cursor: pointer; }
-  .map-svg .booth.link:hover rect, .map-svg .booth.link:focus rect { fill: var(--pink-light); }
+  .map-svg .booth.link:hover rect, .map-svg .booth.link:focus rect { opacity: .75; }
   .map-svg .booth text { font-size: 10px; font-weight: 700; letter-spacing: -.2px; }
   .map-svg .arrow { fill: var(--blue); }
 
@@ -569,15 +569,29 @@
     clearTimeout(lockT); lockT = setTimeout(() => { lockSpy = false; }, 900);
   }
   const floorsEl = $('map-floors');
-  (D.map.floors || []).forEach((f) => {
+  const PATTERNS = { pink: 'assets/pattern-pink.webp', yellow: 'assets/pattern-yellow.webp' };
+  const TILE = 120; // 패턴 한 칸 크기(도면 좌표 단위) — 숫자를 키우면 글자 무늬가 커진다
+  (D.map.floors || []).forEach((f, fi) => {
     const block = document.createElement('div'); block.className = 'floor-block';
     const h = document.createElement('h3'); h.className = 'floor-lb'; h.textContent = f.label; block.appendChild(h);
     const vb = f.viewBox || [0, 0, 390, 300];
     const svg = el('svg', { class: 'map-svg', viewBox: vb.join(' '), role: 'img', 'aria-label': `${f.label} 배치도` });
+    // 부스(핑크)·존(옐로) 배경 무늬 — 층마다 defs 를 따로 두어 Safari 에서도 참조가 깨지지 않게 한다
+    const defs = el('defs', {});
+    const pat = (k) => `url(#pat-${fi}-${k})`;
+    Object.entries(PATTERNS).forEach(([k, href]) => {
+      const pt = el('pattern', { id: `pat-${fi}-${k}`, patternUnits: 'userSpaceOnUse', x: vb[0], y: vb[1], width: TILE, height: TILE });
+      const im = el('image', { href, width: TILE, height: TILE, preserveAspectRatio: 'xMidYMid slice' });
+      im.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
+      pt.appendChild(im); defs.appendChild(pt);
+    });
+    svg.appendChild(defs);
     (f.zones || []).forEach((z) => {
       const g = el('g', { class: `zone zone-${z.type}` });
       if (z.type === 'event') pressable(g, () => jumpTo($('events'), 'events'), `${z.label} — 이벤트 안내로 이동`);
-      g.appendChild(el('rect', { x: z.x, y: z.y, width: z.w, height: z.h }));
+      const zr = el('rect', { x: z.x, y: z.y, width: z.w, height: z.h });
+      if (z.type !== 'stairs') zr.setAttribute('style', `fill:${pat('yellow')}`);
+      g.appendChild(zr);
       g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb', 14, 12));
       svg.appendChild(g);
     });
@@ -591,7 +605,7 @@
         jumpTo(card, 'bakeries');
         card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
       }, `${b.name} 부스 — 업체 카드로 이동`);
-      g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h }));
+      g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h, style: `fill:${pat('pink')}` }));
       g.appendChild(label(bt.x + bt.w / 2, bt.y + bt.h / 2, nm, 'booth-lb', 12, 10));
       svg.appendChild(g);
     });
