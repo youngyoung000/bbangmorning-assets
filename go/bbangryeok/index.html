@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>빵력장터 바로가기</title>
+<meta property="og:title" content="빵력장터 NEW BBANG WORLD">
+<meta property="og:description" content="2026.10.30(금)~11.01(일) · 참여 빵집 · 공간 안내 · 이벤트">
+<meta property="og:image" content="https://youngyoung000.github.io/bbangmorning-assets/events/bbangryeok-market/assets/og.jpg">
+<style>
+  :root {
+    --pink: #FF8FFF; --pink-pale: #FFCDFF; --yellow: #FFFFB4; --yellow-line: #827F1A;
+    --magenta: #A520A5; --ink: #292A2B; --ink-2: #5A5B5E; --white: #fff;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: var(--pink); color: var(--ink);
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Pretendard", system-ui, -apple-system, sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    padding-block: 32px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .card {
+    width: 100%; max-width: 360px; background: var(--white); border-radius: 20px;
+    padding: 28px 20px 20px; display: grid; gap: 14px; text-align: center;
+    box-shadow: 0 12px 32px rgba(165, 32, 165, .18);
+  }
+  .eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--magenta); }
+  h1 { margin: 0; font-size: 22px; line-height: 1.3; font-weight: 800; text-wrap: balance; }
+  .status { margin: 0; font-size: 14px; color: var(--ink-2); min-height: 1.5em; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; min-height: 48px; padding: 12px 16px; border-radius: 12px; border: 0;
+    font: inherit; font-size: 15px; font-weight: 700; color: var(--ink); text-decoration: none; cursor: pointer;
+  }
+  .btn-primary { background: var(--yellow); border: 1.5px solid var(--yellow-line); }
+  .btn-secondary { background: var(--pink-pale); }
+  .btn-ghost { background: transparent; color: var(--ink-2); font-weight: 500; font-size: 14px; min-height: 40px; }
+  .stores { display: grid; gap: 8px; }
+  .stores[hidden] { display: none; }
+  .foot { margin: 4px 0 0; font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+  .foot a { color: var(--magenta); word-break: break-all; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">NEW BBANG WORLD</p>
+    <h1>빵력장터 안내를<br>빵모닝 앱에서 열어요</h1>
+    <p class="status" id="status">앱을 여는 중이에요…</p>
+
+    <button class="btn btn-primary" id="open-app" type="button">빵모닝 앱에서 열기</button>
+
+    <div class="stores" id="stores">
+      <a class="btn btn-secondary" id="store-ios" href="https://apps.apple.com/kr/app/id6755493725">App Store에서 받기</a>
+      <a class="btn btn-secondary" id="store-aos" href="https://play.google.com/store/apps/details?id=io.ohmyapp.bbangmorning.aos">Google Play에서 받기</a>
+    </div>
+
+    <a class="btn btn-ghost" id="open-web" href="#">앱 없이 웹으로 보기</a>
+
+    <p class="foot">앱이 열리지 않으면 아래 주소로 바로 볼 수 있어요.<br><a id="page-link" href="#"></a></p>
+  </main>
+
+<script>
+(function () {
+  // 안내 페이지 실제 위치 — 이 파일 기준 상대 경로라 github.io · event.bbangmorning.com 어느 쪽에서도 맞다.
+  var PAGE = new URL('../../events/bbangryeok-market/', location.href).href;
+  var DEEP = 'bbangmorning://web?url=' + encodeURIComponent(PAGE);
+  var IOS_STORE = 'https://apps.apple.com/kr/app/id6755493725';
+  var AOS_STORE = 'https://play.google.com/store/apps/details?id=io.ohmyapp.bbangmorning.aos';
+  var PKG = 'io.ohmyapp.bbangmorning.aos';
+  var INTENT = 'intent://web?url=' + encodeURIComponent(PAGE)
+    + '#Intent;scheme=bbangmorning;package=' + PKG
+    + ';S.browser_fallback_url=' + encodeURIComponent(AOS_STORE) + ';end';
+
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/i.test(ua);
+  var isMobile = isIOS || isAndroid;
+  var params = new URLSearchParams(location.search);
+  var auto = !params.has('noauto');
+
+  var $ = function (id) { return document.getElementById(id); };
+  $('page-link').textContent = PAGE.replace(/^https?:\/\//, '');
+  $('page-link').href = PAGE;
+  $('open-web').href = PAGE;
+  if (isIOS) $('store-aos').hidden = true;
+  if (isAndroid) $('store-ios').hidden = true;
+
+  var timer = null;
+  function cancelFallback() { if (timer) { clearTimeout(timer); timer = null; } }
+  document.addEventListener('visibilitychange', function () { if (document.hidden) cancelFallback(); });
+  window.addEventListener('pagehide', cancelFallback);
+  window.addEventListener('blur', cancelFallback);
+
+  function setStatus(t) { $('status').textContent = t; }
+
+  function openApp() {
+    cancelFallback();
+    if (isAndroid) {
+      setStatus('앱을 여는 중이에요…');
+      // 크롬·삼성 인터넷·카카오 인앱: 앱 있으면 열고 없으면 Play 스토어로 보낸다.
+      location.href = INTENT;
+      // intent: 미지원 브라우저 보험
+      timer = setTimeout(function () {
+        if (!document.hidden) { setStatus('앱이 없다면 아래에서 받아 주세요.'); location.href = AOS_STORE; }
+      }, 2500);
+      return;
+    }
+    if (isIOS) {
+      setStatus('앱을 여는 중이에요…');
+      location.href = DEEP;
+      // 앱이 안 뜨면(미설치 또는 인앱 브라우저 차단) App Store 로.
+      timer = setTimeout(function () {
+        if (!document.hidden) { setStatus('앱이 없다면 아래에서 받아 주세요.'); location.href = IOS_STORE; }
+      }, 1800);
+      return;
+    }
+    // 데스크톱: 앱이 없으니 웹 안내 페이지로.
+    location.replace(PAGE);
+  }
+
+  $('open-app').addEventListener('click', openApp);
+
+  if (!isMobile) {
+    setStatus('PC에서는 웹 안내 페이지로 이동해요.');
+    $('open-app').textContent = '빵력장터 안내 보기';
+    if (auto) location.replace(PAGE);
+  } else if (auto) {
+    openApp();
+  } else {
+    setStatus('');
+  }
+})();
+</script>
+</body>
+</html>

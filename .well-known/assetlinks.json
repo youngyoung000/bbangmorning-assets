@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.ohmyapp.bbangmorning.aos",
+      "sha256_cert_fingerprints": [
+        "66:40:80:10:7C:3A:FB:1B:6B:FE:6D:3C:9C:57:B5:39:F0:79:4F:86:57:F3:0F:95:26:CA:74:23:F1:89:13:83"
+      ]
+    }
+  }
+]

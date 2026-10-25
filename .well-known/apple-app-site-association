@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["3LHW8M68U7.io.ohmyapp.bbangmorning.ios"],
+        "components": [
+          { "/": "/events/*", "comment": "이벤트 안내 페이지는 빵모닝 앱에서 연다(1.9.7+)" }
+        ]
+      }
+    ]
+  }
+}
