@@ -83,7 +83,7 @@
       "desc": "현장 이벤트 내용은 계속 업데이트될 예정이에요."
     }
   },
-  "ctaLabel": "라인업 상세보기",
+  "ctaLabel": "상세보기",
   "bakeries": [
     {
       "id": "6ac4b86ed3233b3b48eeb7c5",
@@ -1067,7 +1067,7 @@
   const byBooth = {};
   $('cards').innerHTML = D.bakeries.map((b, i) => {
     byBooth[b.booth] = i;
-    const label = `<span>${esc(D.ctaLabel || '라인업 상세보기')}</span><img class="chev" src="assets/icon-forward.png" alt="" width="42" height="42">`;
+    const label = `<span>${esc(D.ctaLabel || '상세보기')}</span><img class="chev" src="assets/icon-forward.png" alt="" width="42" height="42">`;
     const cta = b.id
       ? `<a class="cta" href="bbangmorning://bakery/${esc(b.id)}" data-bakery="${esc(b.id)}">${label}</a>`
       : `<button class="cta" type="button" data-popup="${i}">${label}</button>`;
