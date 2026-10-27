@@ -62,6 +62,10 @@
       "label": "공간 안내"
     },
     {
+      "id": "waiting",
+      "label": "웨이팅 안내"
+    },
+    {
       "id": "events",
       "label": "이벤트"
     }
@@ -80,7 +84,7 @@
     "events": {
       "badge": "이벤트",
       "title": "",
-      "desc": "현장 이벤트 내용은 계속 업데이트될 예정이에요."
+      "desc": ""
     }
   },
   "ctaLabel": "상세보기",
@@ -328,7 +332,7 @@
   ],
   "map": {
     "note": "각 공간을 누르면 상세 정보를 볼 수 있어요",
-    "_comment": "Figma Section.svg(2026-10-25) 좌표 그대로. floors[].viewBox = [x, y, w, h] 로 층별 크롭. booth 는 bakeries[].booth 와 연결(없으면 라벨만). label 의 \\n 은 줄바꿈",
+    "_comment": "1F는 Figma Frame 22.svg(2026-10-27, 374×307, 원점 (14,138.594)로 평행이동) · 2F/3F는 Section.svg(2026-10-25) 좌표 그대로. floors[].viewBox = [x, y, w, h] 로 층별 크롭. booth 는 bakeries[].booth 와 연결(없으면 라벨만). label 의 \\n 은 줄바꿈. entrance 는 path 문자열 또는 배열. zones[].color = pink|blue|yellow|white(기본 yellow), type wc = 화장실, umbrellas = 피크닉 파라솔 아이콘, doors[] = 벽 위 출입문 표시(OUT/IN)",
     "floors": [
       {
         "label": "1F",
@@ -339,17 +343,16 @@
           311
         ],
         "walls": [
-          "M67.5 269.094H16.5V140.594H385.5V443.594L253.5 443.192V268.692L120 269.094",
+          "M67.5 269.094H16.5V140.594H385.5V443.594L253.5 443.192V399.567M120 269.094L253.5 268.692V366.656",
           "M16 380.594V443.594H127.5V380.594H49.5"
         ],
-        "entrance": "M94 273.594L102.66 288.594H85.3397L94 273.594Z",
         "zones": [
           {
             "type": "stairs",
             "x": 23,
             "y": 146.594,
             "w": 42,
-            "h": 116,
+            "h": 88,
             "label": "계단"
           },
           {
@@ -358,7 +361,8 @@
             "y": 275.594,
             "w": 112,
             "h": 74,
-            "label": "빵모닝 이벤트 존"
+            "label": "빵모닝 이벤트 존",
+            "color": "pink"
           },
           {
             "type": "eat",
@@ -366,7 +370,9 @@
             "y": 353.594,
             "w": 112,
             "h": 90,
-            "label": "취식 공간"
+            "label": "취식 공간",
+            "color": "white",
+            "umbrellas": true
           },
           {
             "type": "event",
@@ -374,7 +380,8 @@
             "y": 387.594,
             "w": 98,
             "h": 49,
-            "label": "토스 페이스페이 존"
+            "label": "토스\n페이스페이 존",
+            "color": "blue"
           },
           {
             "type": "event",
@@ -382,7 +389,16 @@
             "y": 381.594,
             "w": 118,
             "h": 55,
-            "label": "굿즈 존"
+            "label": "굿즈 존",
+            "color": "pink"
+          },
+          {
+            "type": "wc",
+            "x": 23,
+            "y": 238.594,
+            "w": 42,
+            "h": 24,
+            "label": "WC"
           }
         ],
         "booths": [
@@ -481,6 +497,24 @@
             "y": 317.594,
             "w": 48,
             "h": 48
+          }
+        ],
+        "doors": [
+          {
+            "x": 70,
+            "y": 265.094,
+            "w": 47,
+            "h": 8,
+            "label": "OUT",
+            "side": "below"
+          },
+          {
+            "x": 249.5,
+            "y": 370,
+            "w": 8,
+            "h": 26,
+            "label": "IN",
+            "side": "left"
           }
         ]
       },
@@ -685,15 +719,62 @@
           }
         ]
       }
-    ]
+    ],
+    "waiting": {
+      "title": "빵력장터 현장\n웨이팅 등록 방법",
+      "image": "",
+      "groups": [
+        {
+          "tag": "웨이팅 등록 및 호출",
+          "kind": "num",
+          "lines": [
+            "본인이 직접 등록하셔야 하며, 등록은 하루 1회만 가능합니다.",
+            "호출 알림을 받으시면 10분 안에 도착해 주세요.\n(시간 내 도착이 어려우시면 시간 갱신 기능을 1회 사용하실 수 있습니다.)",
+            "호출 시간 내 도착하지 않으시면 입장이 취소됩니다.\n재등록 필요 시 현장 스태프에게 문의해 주세요."
+          ]
+        },
+        {
+          "tag": "호출 후 현장 대기 안내",
+          "kind": "text",
+          "lines": [
+            "입장은 호출 번호 순서가 아니에요. 호출 및 입장은 그룹 단위로 진행됩니다.\n동시 호출한 번호 내에서 현장에 도착하신 순서대로 입장하실 수 있어요.\n(예: 1~30번 호출 > 도착 순서대로 대기 > 입장)"
+          ]
+        },
+        {
+          "tag": "꼭! 숙지해 주세요!",
+          "kind": "star",
+          "tone": "pink",
+          "lines": [
+            "웨이팅은 1인 1등록을 원칙으로 하며, 대리 등록은 불가합니다.\n등록자 본인에 한하여 입장할 수 있습니다.",
+            "국내 휴대전화 번호가 없는 방문객은 이메일을 통해 등록 가능합니다.",
+            "12세 이하 아동은 보호자 동반 입장이 가능하며,\n반려동물은 이동장(케이지) 이용 시 보호자와 함께 입장할 수 있습니다."
+          ]
+        }
+      ]
+    }
   },
   "events": [
     {
-      "title": "빵모닝 앱 다운로드 이벤트",
-      "image": "assets/event-app-download.webp",
-      "imageFit": "cover",
-      "aspect": "1 / 1",
-      "desc": "기본 상품: 빵모닝 앱을 다운로드하고 로그인한 화면을 1F 빵모닝 이벤트 존에서 보여주시면 랜덤 상품을 드려요.\n추가 상품: 마음에 드는 빵집에 좋아요를 누르고 알림까지 켜면 가챠 뽑기권 1개를 더 드려요.",
+      "title": "빵모닝 존 혜택",
+      "desc": "역대급 빠방한 협찬사와 함께하는 이벤트",
+      "itemsCols": 1,
+      "items": [
+        {
+          "label": "팬케이크 쌓기 게임",
+          "text": "제한 시간 안에 팬케이크를 쌓으면 빵력키링을 선물로 드립니다!",
+          "images": [
+            "assets/bz-keyrings.webp"
+          ],
+          "imgWidth": "68%"
+        },
+        {
+          "label": "앱 회원가입 이벤트",
+          "text": "빵모닝 App 다운로드 후 회원가입, 마이페이지를 인증해 주시면 다양한 협찬품을 받을 수 있는 뽑기권을 드려요!\n빵집 소식 알림 설정하면 뽑기권 하나 더!",
+          "images": [
+            "assets/bz-signup.webp"
+          ]
+        }
+      ],
       "time": ""
     },
     {
@@ -703,6 +784,41 @@
       "desc": "빵력을 상승시켜줄 줄감개, 키링, 모자, 티셔츠까지!",
       "time": "",
       "aspect": "1 / 1"
+    },
+    {
+      "title": "토스 존 혜택",
+      "desc": "페이스페이 결제 횟수에 따른 혜택을 드려요!",
+      "items": [
+        {
+          "label": "최초 결제",
+          "text": "페이스페이 3,000원 쿠폰",
+          "images": [
+            "assets/tz-coupon.webp"
+          ]
+        },
+        {
+          "label": "결제 1회",
+          "text": "토스 커피바 무료 이용권 (1인 1잔)",
+          "images": [
+            "assets/tz-cup.webp"
+          ]
+        },
+        {
+          "label": "결제 3회",
+          "text": "토스 스페셜 굿즈 1종 랜덤 증정",
+          "images": [
+            "assets/tz-sticker.webp"
+          ]
+        },
+        {
+          "label": "결제 5회",
+          "text": "로스트 테크놀로지 포토부스 이용권",
+          "images": [
+            "assets/tz-card.webp"
+          ]
+        }
+      ],
+      "time": ""
     }
   ],
   "footer": {
@@ -713,6 +829,11 @@
       "취식존 외 장소에서는 취식을 삼가 주세요.",
       "반려동물은 이동장 안에서만 동반 가능해요."
     ]
+  },
+  "moreCta": {
+    "label": "빵력장터 온 김에 성수 일대 도장깨기",
+    "href": "bbangmorning://tab/map?view=map&category=seongsu",
+    "_comment": "탐색 탭 지도 보기 + 큐레이션 '성수 도장깨기'(code seongsu, 10-27 어드민 생성, 30곳). 쿼리 순서는 view → category 고정(앱 정규식)"
   }
 }
 </script>
@@ -821,12 +942,14 @@
     position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
     background: rgba(255, 255, 255, .96); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
     border-bottom: 1px solid var(--line); height: var(--tab-h);
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+    display: flex; align-items: center; justify-content: safe center; gap: 6px;
+    overflow-x: auto; scrollbar-width: none; /* 탭 4개가 좁은 폰에서 넘치면 가로 스크롤 */
   }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab {
     appearance: none; border: 1px solid var(--border); background: var(--bg); color: var(--ink-2);
-    font: inherit; font-size: 14px; font-weight: 700; line-height: 1;
-    height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+    font: inherit; font-size: 13.5px; font-weight: 700; line-height: 1; flex: none;
+    height: 34px; padding: 0 12px; border-radius: 999px; cursor: pointer; white-space: nowrap;
     transition: background .15s, color .15s, border-color .15s;
   }
   .tab:hover { border-color: var(--pink); color: var(--magenta-deep); }
@@ -875,6 +998,14 @@
     cursor: pointer; width: 100%; transition: background .15s;
   }
   .cta:active { background: var(--yellow-soft); }
+  /* 리스트 최하단 보조 버튼 — 옐로 CTA 보다 낮은 위계(흰 바탕 + 회색 외곽선) */
+  .cta-more {
+    display: flex; align-items: center; justify-content: center; gap: 2px; margin-top: 16px;
+    height: 46px; padding: 0 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--ink);
+    font: inherit; font-size: 14px; font-weight: 700; line-height: 1; text-decoration: none; white-space: nowrap; transition: background .15s;
+  }
+  .cta-more:active { background: var(--fill); }
+  .cta-more .chev { display: block; width: 14px; height: 14px; flex: none; }
   .cta span { display: block; }
   .cta .chev { display: block; width: 14px; height: 14px; flex: none; }
 
@@ -912,17 +1043,49 @@
   }
   .map-svg { width: 100%; height: auto; display: block; max-width: 100%; overflow: hidden; }
   .map-svg text { font-family: var(--font-body); fill: var(--ink); }
-  .map-svg .wall { fill: none; stroke: #000; stroke-width: 2.5; }
-  .map-svg .zone-lb { font-size: 12px; font-weight: 800; }
-  .map-svg .zone-event rect, .map-svg .zone-eat rect { fill: var(--yellow); transition: opacity .15s; } /* 실제로는 패턴 이미지(assets/pattern-yellow.webp)로 덮임 */
-  .map-svg .zone-stairs rect { fill: var(--grey); }
+  .map-svg .wall { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+  .map-svg .zone-lb { font-family: var(--font-display); font-size: 12px; font-weight: 400; }
+  .map-svg .zone rect { stroke: var(--ink); stroke-width: 1.2; transition: opacity .15s; }
+  .map-svg .zone.c-yellow rect { fill: var(--yellow); }
+  .map-svg .zone.c-pink rect { fill: var(--pink); }
+  .map-svg .zone.c-blue rect { fill: var(--blue); }
+  .map-svg .zone.c-blue text { fill: #fff; }
+  .map-svg .zone.c-white rect { fill: var(--bg); }
+  .map-svg .zone.c-grey rect { fill: var(--grey); }
+  .map-svg .zone .step { stroke: var(--ink); stroke-width: .8; opacity: .55; }
+  .map-svg .stairs-lb { font-size: 10px; paint-order: stroke; stroke: var(--grey); stroke-width: 4px; stroke-linejoin: round; }
+  .map-svg .wc-lb { fill: var(--blue); font-size: 13px; }
+  .map-svg .umbrella circle { fill: var(--yellow-pale); stroke: #D9D48A; stroke-width: .8; }
+  .map-svg .umbrella line { stroke: #D9D48A; stroke-width: .8; }
+  .map-svg .umbrella .tip { fill: #D9D48A; stroke: none; }
   .map-svg .zone-event { cursor: pointer; }
   .map-svg .zone-event:hover rect, .map-svg .zone-event:focus rect { opacity: .75; }
-  .map-svg .booth rect { fill: var(--pink); transition: opacity .15s; } /* 실제로는 패턴 이미지(assets/pattern-pink.webp)로 덮임 */
+  .map-svg .booth rect { fill: var(--yellow); stroke: var(--ink); stroke-width: 1.2; transition: opacity .15s; }
   .map-svg .booth.link { cursor: pointer; }
   .map-svg .booth.link:hover rect, .map-svg .booth.link:focus rect { opacity: .75; }
   .map-svg .booth text { font-size: 10px; font-weight: 700; letter-spacing: -.2px; }
   .map-svg .arrow { fill: var(--blue); }
+  .map-svg .door rect { fill: var(--bg); stroke: var(--ink); stroke-width: 1.2; }
+  .map-svg .door-lb { font-family: var(--font-display); font-size: 10px; letter-spacing: .02em; }
+
+  /* ---------- 공간 안내 — 웨이팅 등록 안내(도면 아래) ---------- */
+  .waiting { display: grid; gap: 30px; margin-top: 44px; scroll-margin-top: calc(var(--tab-h) + env(safe-area-inset-top, 0px) + 20px); } /* 카드 사이 30px — 위로 튀어나온 태그(13px)가 앞 카드에 닿지 않게 */
+  .wait-head { display: grid; justify-items: center; gap: 12px; margin-bottom: -6px; }
+  .wait-title { margin: 0; font-family: var(--font-body); font-weight: 800; font-size: 22px; line-height: 1.25; letter-spacing: -.02em; color: var(--ink); white-space: pre-line; text-align: center; text-wrap: balance; }
+  .wait-img { width: 128px; max-width: 38%; height: auto; display: block; border-radius: 10px; }
+  .wait-card { position: relative; border: 1px solid var(--line); border-radius: 16px; background: var(--bg); padding: 28px 16px 18px; text-align: left; }
+  .wait-card.pink { border-color: var(--pink); box-shadow: 0 0 0 1px var(--pink) inset; }
+  .wait-tag {
+    position: absolute; top: -13px; left: 0; right: 0; margin: 0 auto; width: max-content; max-width: calc(100% - 24px); white-space: nowrap;
+    display: inline-flex; align-items: center; justify-content: center; text-align: center; height: 26px; padding: 0 12px; border-radius: 999px;
+    background: var(--yellow); border: 1px solid var(--border); font-size: 13px; font-weight: 800; color: var(--ink);
+  }
+  .wait-card.pink .wait-tag { background: var(--pink); }
+  .wait-lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .wait-lines li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; font-size: 14px; line-height: 1.55; color: var(--ink); white-space: pre-line; }
+  .wait-lines.text li { grid-template-columns: minmax(0, 1fr); }
+  .wait-lines .wn { width: 18px; height: 18px; margin-top: 2px; border-radius: 999px; background: var(--ink); color: var(--bg); font-style: normal; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+  .wait-lines .ws { margin-top: 1px; color: var(--magenta); font-style: normal; font-size: 14px; }
 
   /* ---------- 이벤트 ---------- */
   .events { display: grid; }
@@ -945,7 +1108,15 @@
   .event-items.one { grid-template-columns: minmax(0, 1fr); }
   .event-item { text-align: left; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); display: grid; gap: 6px; align-content: start; }
   .event-item b { display: block; font-size: 14px; font-weight: 800; line-height: 1.3; color: var(--ink); }
-  .event-item span { font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .event-item span { font-size: 13px; line-height: 1.5; color: var(--ink-2); white-space: pre-line; }
+  .event-item.wide { padding: 16px; }
+  .event-item.wide b { font-size: 16px; }
+  .event-item.wide span { font-size: 14px; }
+  /* 혜택 카드 안 이미지(사진 영역은 흰 바탕에 그대로) */
+  .item-imgs { display: grid; gap: 8px; margin-top: 6px; }
+  .item-imgs.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
+  .item-imgs img { width: 100%; height: auto; display: block; border-radius: 10px; }
+  .event-items:not(.one) .item-imgs img { aspect-ratio: 1 / 1; object-fit: contain; }
   .event-time { margin: 0; font-size: 13px; font-weight: 700; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--fill); }
 
   /* ---------- 푸터 ---------- */
@@ -984,11 +1155,13 @@
     <section class="block wrap" id="bakeries">
       <div class="sec-head" data-sec="bakeries"></div>
       <div class="cards" id="cards"></div>
+      <a class="cta-more" id="more-cta" hidden></a>
     </section>
 
     <section class="block wrap" id="map">
       <div class="sec-head" data-sec="map"></div>
       <div class="map-floors" id="map-floors"></div>
+      <div class="waiting" id="waiting"></div>
     </section>
 
     <section class="block wrap" id="events">
@@ -1082,6 +1255,14 @@
     </article>`;
   }).join('');
 
+  /* 리스트 최하단 보조 버튼(D.moreCta) */
+  if (D.moreCta && D.moreCta.label && D.moreCta.href) {
+    const a = $('more-cta');
+    a.href = D.moreCta.href;
+    a.innerHTML = `<span>${esc(D.moreCta.label)}</span><img class="chev" src="assets/icon-forward.png" alt="" width="42" height="42">`;
+    a.hidden = false;
+  }
+
   /* 라인업 팝업 — 앱 상세 페이지가 없는 업체 */
   const modal = $('modal');
   let lastFocus = null;
@@ -1135,33 +1316,38 @@
     clearTimeout(lockT); lockT = setTimeout(() => { lockSpy = false; }, 900);
   }
   const floorsEl = $('map-floors');
-  const PATTERNS = { pink: 'assets/pattern-pink.webp', yellow: 'assets/pattern-yellow.webp' };
-  const TILE = 120; // 패턴 한 칸 크기(도면 좌표 단위) — 숫자를 키우면 글자 무늬가 커진다
-  const PATTERN_OPACITY = 0.4; // 무늬 진하기(0~1) — 바탕 단색 위에 패턴 이미지를 이 투명도로 얹는다
-  const BASE = { pink: 'var(--pink)', yellow: 'var(--yellow)' };
-  (D.map.floors || []).forEach((f, fi) => {
+  /* 도면 스타일(PM 10-27 레퍼런스): 둥근 모서리 + 가는 검정 외곽선 + 단색 면(부스 옐로 / 존은 color 필드) ·
+     계단은 가로 단 선, WC 는 화장실, 피크닉 존은 파라솔 아이콘, 출입문은 벽 위 흰 막대 + OUT/IN */
+  const umbrella = (cx, cy, r) => {
+    const g = el('g', { class: 'umbrella' });
+    g.appendChild(el('circle', { cx, cy, r }));
+    for (let k = 0; k < 8; k++) {
+      const a = (Math.PI / 4) * k;
+      g.appendChild(el('line', { x1: cx, y1: cy, x2: cx + r * Math.cos(a), y2: cy + r * Math.sin(a) }));
+    }
+    g.appendChild(el('circle', { cx, cy, r: 1.2, class: 'tip' }));
+    return g;
+  };
+  (D.map.floors || []).forEach((f) => {
     const block = document.createElement('div'); block.className = 'floor-block';
     const h = document.createElement('h3'); h.className = 'floor-lb'; h.textContent = f.label; block.appendChild(h);
     const vb = f.viewBox || [0, 0, 390, 300];
     const svg = el('svg', { class: 'map-svg', viewBox: vb.join(' '), role: 'img', 'aria-label': `${f.label} 배치도` });
-    // 부스(핑크)·존(옐로) 배경 무늬 — 층마다 defs 를 따로 두어 Safari 에서도 참조가 깨지지 않게 한다
-    const defs = el('defs', {});
-    const pat = (k) => `url(#pat-${fi}-${k})`;
-    Object.entries(PATTERNS).forEach(([k, href]) => {
-      const pt = el('pattern', { id: `pat-${fi}-${k}`, patternUnits: 'userSpaceOnUse', x: vb[0], y: vb[1], width: TILE, height: TILE });
-      pt.appendChild(el('rect', { width: TILE, height: TILE, style: `fill:${BASE[k]}` }));
-      const im = el('image', { href, width: TILE, height: TILE, preserveAspectRatio: 'xMidYMid slice', opacity: PATTERN_OPACITY });
-      im.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
-      pt.appendChild(im); defs.appendChild(pt);
-    });
-    svg.appendChild(defs);
     (f.zones || []).forEach((z) => {
-      const g = el('g', { class: `zone zone-${z.type}` });
+      const color = z.color || (z.type === 'stairs' ? 'grey' : z.type === 'wc' ? 'white' : 'yellow');
+      const g = el('g', { class: `zone zone-${z.type} c-${color}` });
       if (z.type === 'event') pressable(g, () => jumpTo($('events'), 'events'), `${z.label} — 이벤트 안내로 이동`);
-      const zr = el('rect', { x: z.x, y: z.y, width: z.w, height: z.h });
-      if (z.type !== 'stairs') zr.setAttribute('style', `fill:${pat('yellow')}`);
-      g.appendChild(zr);
-      g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb', 14, 12));
+      g.appendChild(el('rect', { x: z.x, y: z.y, width: z.w, height: z.h, rx: 6 }));
+      if (z.type === 'stairs') { /* 계단 — 가로 단 + 가운데 난간선 */
+        for (let y = z.y + 9; y < z.y + z.h - 4; y += 9) g.appendChild(el('line', { class: 'step', x1: z.x + 3, y1: y, x2: z.x + z.w - 3, y2: y }));
+        g.appendChild(el('line', { class: 'step', x1: z.x + z.w / 2, y1: z.y + 3, x2: z.x + z.w / 2, y2: z.y + z.h - 3 }));
+      }
+      if (z.umbrellas) { /* 피크닉 존 — 네 귀퉁이 파라솔 */
+        const r = 10, px = z.x + r + 7, py = z.y + r + 7, qx = z.x + z.w - r - 7, qy = z.y + z.h - r - 7;
+        [[px, py], [qx, py], [px, qy], [qx, qy]].forEach(([cx, cy]) => g.appendChild(umbrella(cx, cy, r)));
+      }
+      if (z.type !== 'stairs') g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb' + (z.type === 'wc' ? ' wc-lb' : ''), 14, 12));
+      else g.appendChild(label(z.x + z.w / 2, z.y + z.h / 2, z.label, 'zone-lb stairs-lb', 14, 12));
       svg.appendChild(g);
     });
     (f.booths || []).forEach((bt) => {
@@ -1174,14 +1360,39 @@
         jumpTo(card, 'bakeries');
         card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
       }, `${b.name} 부스 — 업체 카드로 이동`);
-      g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h, style: `fill:${pat('pink')}` }));
+      g.appendChild(el('rect', { x: bt.x, y: bt.y, width: bt.w, height: bt.h, rx: 5 }));
       g.appendChild(label(bt.x + bt.w / 2, bt.y + bt.h / 2, nm, 'booth-lb', 12, 10));
       svg.appendChild(g);
     });
     (f.walls || []).forEach((d) => svg.appendChild(el('path', { class: 'wall', d })));
-    if (f.entrance) svg.appendChild(el('path', { class: 'arrow', d: f.entrance }));
+    [].concat(f.entrance || []).forEach((d) => svg.appendChild(el('path', { class: 'arrow', d })));
+    (f.doors || []).forEach((dr) => { /* 출입문 — 벽 위 흰 막대 + 방향 글자 */
+      const g = el('g', { class: 'door' });
+      g.appendChild(el('rect', { x: dr.x, y: dr.y, width: dr.w, height: dr.h, rx: 2 }));
+      const cx = dr.side === 'right' ? dr.x + dr.w + 12 : dr.side === 'left' ? dr.x - 12 : dr.x + dr.w / 2;
+      const cy = (dr.side === 'right' || dr.side === 'left') ? dr.y + dr.h / 2 : dr.y + dr.h + 11;
+      g.appendChild(label(cx, cy, dr.label, 'door-lb', 11, 10));
+      svg.appendChild(g);
+    });
     block.appendChild(svg); floorsEl.appendChild(block);
   });
+
+  /* 공간 안내 — 도면 아래 웨이팅 등록 안내(PM 10-27 이미지 원문) */
+  (function renderWaiting() {
+    const w = D.map.waiting; const box = $('waiting');
+    if (!w) { box.hidden = true; return; }
+    const marker = (kind, i) => kind === 'num' ? `<i class="wn">${i + 1}</i>` : kind === 'star' ? `<i class="ws" aria-hidden="true">★</i>` : '';
+    box.innerHTML = `
+      <div class="wait-head">
+        <h3 class="wait-title">${esc(w.title)}</h3>
+        ${w.image ? `<img class="wait-img" src="${esc(w.image)}" alt="" loading="lazy">` : ''}
+      </div>
+      ${(w.groups || []).map((g) => `
+        <div class="wait-card${g.tone === 'pink' ? ' pink' : ''}">
+          <span class="wait-tag">${esc(g.tag)}</span>
+          <ul class="wait-lines ${esc(g.kind || 'text')}">${(g.lines || []).map((l, i) => `<li>${marker(g.kind, i)}<span>${esc(l)}</span></li>`).join('')}</ul>
+        </div>`).join('')}`;
+  })();
 
   /* 이벤트 — 설명의 "라벨: 내용" 줄은 카드 그리드로, 나머지 줄은 문단으로 */
   function eventDesc(desc) {
@@ -1191,12 +1402,24 @@
     return (paras.length ? `<p class="event-desc">${esc(paras.join('\n'))}</p>` : '') +
       (items.length ? `<div class="event-items${items.length === 1 ? ' one' : ''}">${items.map((m) => `<div class="event-item"><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`).join('')}</div>` : '');
   }
+  /* 구조형 혜택 카드 — items[{label, text, images[]}] (PM 10-27 빵모닝 존·토스 존) */
+  function eventItems(ev) {
+    const items = ev.items || [];
+    if (!items.length) return '';
+    const one = ev.itemsCols === 1 || items.length === 1;
+    return `<div class="event-items${one ? ' one' : ''}">${items.map((it) => `
+      <div class="event-item${one ? ' wide' : ''}">
+        <b>${esc(it.label)}</b><span>${esc(it.text)}</span>
+        ${(it.images || []).length ? `<div class="item-imgs n${it.images.length}"${it.imgWidth ? ` style="width:${esc(it.imgWidth)};margin-inline:auto"` : ''}>${it.images.map((s) => `<img src="${esc(s)}" alt="" loading="lazy">`).join('')}</div>` : ''}
+      </div>`).join('')}</div>`;
+  }
   $('event-list').innerHTML = D.events.map((ev) =>
     `<article class="event">
       <h3 class="event-title">${esc(ev.title)}</h3>
       ${eventDesc(ev.desc)}
+      ${eventItems(ev)}
       ${ev.time ? `<p class="event-time">${esc(ev.time)}</p>` : ''}
-      <div class="event-img ${ev.imageFit === 'contain' ? 'contain' : ''}"${ev.aspect ? ` style="aspect-ratio:${esc(ev.aspect)}"` : ''}><img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy"></div>
+      ${ev.image ? `<div class="event-img ${ev.imageFit === 'contain' ? 'contain' : ''}"${ev.aspect ? ` style="aspect-ratio:${esc(ev.aspect)}"` : ''}><img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy"></div>` : ''}
     </article>`).join('');
 
   /* 푸터 */
