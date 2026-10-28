@@ -1090,6 +1090,7 @@
 
   /* ---------- 참여 업체 카드 (2열) ---------- */
   .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .card { cursor: pointer; }
   .card {
     background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
     overflow: hidden; min-width: 0; display: flex; flex-direction: column;
@@ -1424,8 +1425,11 @@
     if (restoreFocus && lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   $('cards').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-popup]'); if (!btn) return;
-    openPopup(Number(btn.dataset.popup));
+    // 상세보기 버튼뿐 아니라 카드 어디를 눌러도 시트가 열린다(PM 10-28)
+    const btn = e.target.closest('[data-popup]');
+    const card = e.target.closest('.card');
+    const i = btn ? Number(btn.dataset.popup) : card ? Number(card.id.replace('card-', '')) : NaN;
+    if (!Number.isNaN(i)) openPopup(i);
   });
   $('sheet-close').addEventListener('click', () => closePopup(false));
   $('modal-bg').addEventListener('click', () => closePopup(false));
