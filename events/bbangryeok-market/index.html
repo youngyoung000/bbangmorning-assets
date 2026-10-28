@@ -340,7 +340,7 @@
       "photo": "assets/bakery-6a847ed85b85bc4745f8b718.webp",
       "lineup": "소금빵 · 메론빵",
       "benefit": "추후 업데이트 예정",
-      "detail": "10/30(금)~11/1(일) 성수 어브스튜디오 · 2F\n\n🍞 라인업\n[빵]\n- 소금 3,000\n- 앙소금 크림 6,000\n- 트러플 소금 5,000\n- 메론 3,000\n- 과나하 메론 6,000\n\n※ 가격·구성은 현장 사정에 따라 바뀔 수 있어요. 증정·시식은 수량 소진 시 마감돼요."
+      "detail": "10/30(금)~11/1(일) 성수 어브스튜디오 · 2F\n\n🍞 라인업\n[빵]\n- 소금빵 3,000\n- 앙소금 크림빵 6,000\n- 트러플 소금빵 5,000\n- 메론빵 3,000\n- 과나하 메론빵 6,000\n\n※ 가격·구성은 현장 사정에 따라 바뀔 수 있어요. 증정·시식은 수량 소진 시 마감돼요."
     },
     {
       "id": "69541d98e85414691540cf25",
@@ -1136,6 +1136,8 @@
   @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .sheet { animation: none; } }
   .sheet-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 12px; }
+  /* 시트가 열릴 때 포커스는 시트 컨테이너로 — 닫기 버튼에 주면 iOS 웹뷰가 포커스 링을 그린다 */
+  .sheet:focus, .sheet:focus-visible { outline: none; }
   .sheet-close {
     position: absolute; top: 14px; right: var(--gutter-r); width: 36px; height: 36px; border-radius: 50%;
     border: 0; background: var(--fill); color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer;
@@ -1303,7 +1305,7 @@
 
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-name">
   <div class="modal-bg" id="modal-bg"></div>
-  <div class="sheet">
+  <div class="sheet" id="sheet" tabindex="-1">
     <div class="sheet-handle"></div>
     <button class="sheet-close" id="sheet-close" type="button" aria-label="닫기">✕</button>
     <div class="sheet-photo" id="sheet-photo"></div>
@@ -1414,19 +1416,20 @@
     sheetEl.scrollTop = 0;
     lastFocus = document.activeElement;
     modal.hidden = false; document.body.style.overflow = 'hidden';
-    $('sheet-close').focus();
+    $('sheet').focus({ preventScroll: true });
   }
-  function closePopup() {
+  // 포커스 복귀는 키보드로 닫았을 때만 — 터치로 닫은 뒤 버튼에 포커스를 돌려주면 포커스 링이 남는다
+  function closePopup(restoreFocus) {
     modal.hidden = true; document.body.style.overflow = '';
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (restoreFocus && lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   $('cards').addEventListener('click', (e) => {
     const btn = e.target.closest('[data-popup]'); if (!btn) return;
     openPopup(Number(btn.dataset.popup));
   });
-  $('sheet-close').addEventListener('click', closePopup);
-  $('modal-bg').addEventListener('click', closePopup);
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closePopup(); });
+  $('sheet-close').addEventListener('click', () => closePopup(false));
+  $('modal-bg').addEventListener('click', () => closePopup(false));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closePopup(true); });
 
   /* 공간 안내 도면 — PM Figma 도면(Section.svg) 좌표 그대로, 층마다 svg 하나 */
   function el(tag, attrs, text) {
