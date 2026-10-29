@@ -650,8 +650,16 @@
             "x": 23,
             "y": 507.594,
             "w": 42,
-            "h": 116,
+            "h": 88,
             "label": "계단"
+          },
+          {
+            "type": "wc",
+            "x": 23,
+            "y": 599.594,
+            "w": 42,
+            "h": 24,
+            "label": "WC"
           }
         ],
         "booths": [
@@ -730,8 +738,16 @@
             "x": 23,
             "y": 755.594,
             "w": 42,
-            "h": 116,
+            "h": 88,
             "label": "계단"
+          },
+          {
+            "type": "wc",
+            "x": 23,
+            "y": 847.594,
+            "w": 42,
+            "h": 24,
+            "label": "WC"
           }
         ],
         "booths": [
@@ -842,6 +858,7 @@
           "tag": "웨이팅 등록 및 호출",
           "kind": "num",
           "lines": [
+            "웨이팅 기기 현장 등록 가능 시간\n금요일 → 11시 / 토·일요일 → 10시\n※ 현장 상황에 따라 변동될 수 있습니다.",
             "본인이 직접 등록하셔야 합니다.\n재등록이 필요한 경우 현장 스태프에게 문의해 주세요.",
             "호출 알림을 받으시면 10분 안에 도착해 주세요.\n미도착 시 대기 시간이 10분 자동 연장되며, 연장 후에도 미도착 시 대기가 취소됩니다."
           ]
@@ -861,10 +878,46 @@
             "웨이팅은 1인 1등록을 원칙으로 하며, 대리 등록은 불가합니다.\n등록자 본인에 한하여 입장할 수 있습니다.",
             "국내 휴대전화 번호가 없는 방문객은 이메일을 통해 등록 가능합니다.",
             "12세 이하 아동은 보호자 동반 입장이 가능하며,\n반려동물은 이동장(케이지) 이용 시 보호자와 함께 입장할 수 있습니다.",
-            "출구로 나가신 경우 재입장 시 웨이팅이 있으면 웨이팅을 다시 등록하셔야 합니다."
+            "계절곳간, 크라이치즈버거 등 주문 후 제조 시간이 필요한 제품의 경우\n픽업 호출 후 30분 내에 수령해 주셔야 하며, {{출구로 퇴장하신 후 재입장 원하실 경우 현장 대기 상황에 따라 웨이팅 재등록을 하셔야 합니다.}}"
           ]
         }
       ]
+    },
+    "eating": {
+      "title": "취식 가능 공간 안내",
+      "zone": {
+        "tag": "빵력장터 내부 취식 존",
+        "text": "빵력장터 광장에 마련된 스탠딩 테이블에서 취식이 가능합니다.\n다음 이용객을 위해 취식 후 깨끗하게 정리해 주세요!",
+        "floor": "1F",
+        "highlight": "eat",
+        "badge": "취식 가능 존"
+      },
+      "cafes": {
+        "tag": "성수 일대 취식 가능 카페",
+        "notes": [
+          "1인 1음료 주문 시 외부 음식 취식이 가능해요.",
+          "{{드신 자리는 직접 정리해 주세요! 남은 음식과 쓰레기는 카페에 버릴 수 없으며, 빵력장터 행사장에 버려주세요.}}",
+          "카페에서는 별도 식기를 제공하지 않습니다."
+        ],
+        "list": [
+          {
+            "name": "베를린하우스",
+            "addr": "서울 성동구 아차산로11길 33 1층"
+          },
+          {
+            "name": "뚜흐느솔",
+            "addr": "서울 성동구 성수이로 123"
+          },
+          {
+            "name": "매니페스트",
+            "addr": "서울 성동구 성수이로22길 37 1층"
+          },
+          {
+            "name": "에이투비 cafe&bar",
+            "addr": "서울 성동구 아차산로 135 2층"
+          }
+        ]
+      }
     }
   },
   "events": [
@@ -1213,6 +1266,30 @@
   .wait-lines.text li { grid-template-columns: minmax(0, 1fr); }
   .wait-lines .wn { width: 18px; height: 18px; margin-top: 2px; border-radius: 999px; background: var(--ink); color: var(--bg); font-style: normal; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
   .wait-lines .ws { margin-top: 1px; color: var(--magenta); font-style: normal; font-size: 14px; }
+  .wait-lines .hl, .eat-notes .hl { color: var(--orange); font-style: normal; font-weight: 700; }
+
+  /* ---------- 공간 안내 — 취식 가능 공간 안내(PM 10-29) ---------- */
+  .eating { gap: 16px; }
+  .eating .wait-head { margin-bottom: 4px; }
+  .eat-card { border: 1px solid var(--line); border-radius: 16px; background: var(--bg); padding: 18px 16px 18px; text-align: left; display: grid; gap: 12px; }
+  .eat-tag { margin: 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 800; font-size: 17px; line-height: 1.3; letter-spacing: -.02em; color: var(--ink); }
+  .eat-tag .wn { width: 20px; height: 20px; border-radius: 999px; background: var(--ink); color: var(--bg); font-style: normal; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .eat-zone { display: grid; gap: 14px; align-items: center; }
+  @media (min-width: 440px) { .eat-zone { grid-template-columns: minmax(0, 1fr) 46%; } }
+  .eat-text { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink); white-space: pre-line; }
+  .eat-map { width: 100%; max-width: 280px; margin: 0 auto; border: 1px solid var(--line); border-radius: 12px; padding: 8px; background: var(--bg); }
+  .eat-map .map-svg .booth text { font-size: 9px; }
+  .eat-map .map-svg .zone-lb, .eat-map .map-svg .door-lb, .eat-map .map-svg .stairs-lb { font-size: 11px; }
+  .eat-map .map-svg .eat-ring ellipse { fill: var(--orange); fill-opacity: .14; stroke: var(--orange); stroke-width: 2.5; stroke-dasharray: 7 5; stroke-linecap: round; }
+  .eat-map .map-svg .eat-ring .badge { fill: var(--orange); stroke: none; }
+  .eat-map .map-svg .badge-lb { fill: #fff; font-family: var(--font-body); font-size: 11px; font-weight: 800; }
+  .eat-notes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .eat-notes li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; font-size: 14px; line-height: 1.55; color: var(--ink); }
+  .eat-notes .ck { font-style: normal; font-weight: 800; color: var(--ink); margin-top: 1px; }
+  .eat-cafes { list-style: none; margin: 2px 0 0; padding: 0; display: grid; gap: 8px; }
+  .eat-cafes li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 16px; border-radius: 18px; background: var(--yellow); border: 1px solid var(--border); font-size: 14px; line-height: 1.4; color: var(--ink); }
+  .eat-cafes li b { font-weight: 800; }
+  .eat-cafes .sep { color: var(--ink-3); }
 
   /* ---------- 이벤트 ---------- */
   .events { display: grid; }
@@ -1289,6 +1366,7 @@
       <div class="sec-head" data-sec="map"></div>
       <div class="map-floors" id="map-floors"></div>
       <div class="waiting" id="waiting"></div>
+      <div class="waiting eating" id="eating"></div>
     </section>
 
     <section class="block wrap" id="events">
@@ -1473,15 +1551,13 @@
     g.appendChild(el('circle', { cx, cy, r: 1.2, class: 'tip' }));
     return g;
   };
-  (D.map.floors || []).forEach((f) => {
-    const block = document.createElement('div'); block.className = 'floor-block';
-    const h = document.createElement('h3'); h.className = 'floor-lb'; h.textContent = f.label; block.appendChild(h);
+  function buildFloorSvg(f, interactive) {
     const vb = f.viewBox || [0, 0, 390, 300];
     const svg = el('svg', { class: 'map-svg', viewBox: vb.join(' '), role: 'img', 'aria-label': `${f.label} 배치도` });
     (f.zones || []).forEach((z) => {
       const color = z.color || (z.type === 'stairs' ? 'grey' : z.type === 'wc' ? 'white' : 'yellow');
       const g = el('g', { class: `zone zone-${z.type} c-${color}` });
-      if (z.type === 'event') pressable(g, () => jumpTo($('events'), 'events'), `${z.label} — 이벤트 안내로 이동`);
+      if (interactive && z.type === 'event') pressable(g, () => jumpTo($('events'), 'events'), `${z.label} — 이벤트 안내로 이동`);
       g.appendChild(el('rect', { x: z.x, y: z.y, width: z.w, height: z.h, rx: 6 }));
       if (z.type === 'stairs') { /* 계단 — 가로 단 + 가운데 난간선 */
         for (let y = z.y + 9; y < z.y + z.h - 4; y += 9) g.appendChild(el('line', { class: 'step', x1: z.x + 3, y1: y, x2: z.x + z.w - 3, y2: y }));
@@ -1500,7 +1576,7 @@
       const b = idx != null ? D.bakeries[idx] : null;
       const nm = bt.label || (b ? b.name : '');
       const g = el('g', { class: 'booth' + (b ? ' link' : '') });
-      if (b) pressable(g, () => {
+      if (interactive && b) pressable(g, () => {
         const card = $(`card-${idx}`); if (!card) return;
         jumpTo(card, 'bakeries');
         card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
@@ -1519,8 +1595,16 @@
       g.appendChild(label(cx, cy, dr.label, 'door-lb', 11, 10));
       svg.appendChild(g);
     });
-    block.appendChild(svg); floorsEl.appendChild(block);
+    return svg;
+  }
+  (D.map.floors || []).forEach((f) => {
+    const block = document.createElement('div'); block.className = 'floor-block';
+    const h = document.createElement('h3'); h.className = 'floor-lb'; h.textContent = f.label; block.appendChild(h);
+    block.appendChild(buildFloorSvg(f, true)); floorsEl.appendChild(block);
   });
+
+  /* 안내 문장 안 {{…}} 는 주황 강조(PM 10-29 이미지의 강조색) */
+  const hl = (s) => esc(s).replace(/\{\{([\s\S]+?)\}\}/g, '<em class="hl">$1</em>');
 
   /* 공간 안내 — 도면 아래 웨이팅 등록 안내(PM 10-27 이미지 원문) */
   (function renderWaiting() {
@@ -1535,8 +1619,44 @@
       ${(w.groups || []).map((g) => `
         <div class="wait-card${g.tone === 'pink' ? ' pink' : ''}">
           <span class="wait-tag">${esc(g.tag)}</span>
-          <ul class="wait-lines ${esc(g.kind || 'text')}">${(g.lines || []).map((l, i) => `<li>${marker(g.kind, i)}<span>${esc(l)}</span></li>`).join('')}</ul>
+          <ul class="wait-lines ${esc(g.kind || 'text')}">${(g.lines || []).map((l, i) => `<li>${marker(g.kind, i)}<span>${hl(l)}</span></li>`).join('')}</ul>
         </div>`).join('')}`;
+  })();
+
+  /* 공간 안내 — 취식 가능 공간 안내(PM 10-29 이미지): 내부 취식 존(1F 도면에 강조 링) + 성수 일대 카페 */
+  (function renderEating() {
+    const e = D.map.eating; const box = $('eating');
+    if (!e) { box.hidden = true; return; }
+    const z = e.zone || {}, c = e.cafes || {};
+    box.innerHTML = `
+      <div class="wait-head"><h3 class="wait-title">${esc(e.title)}</h3></div>
+      <div class="eat-card">
+        <h4 class="eat-tag"><i class="wn">1</i>${esc(z.tag)}</h4>
+        <div class="eat-zone">
+          <p class="eat-text">${hl(z.text)}</p>
+          <div class="eat-map" id="eat-map"></div>
+        </div>
+      </div>
+      <div class="eat-card">
+        <h4 class="eat-tag"><i class="wn">2</i>${esc(c.tag)}</h4>
+        <ul class="eat-notes">${(c.notes || []).map((n) => `<li><i class="ck" aria-hidden="true">✓</i><span>${hl(n)}</span></li>`).join('')}</ul>
+        <ul class="eat-cafes">${(c.list || []).map((it) => `<li><b>${esc(it.name)}</b><span class="sep" aria-hidden="true">|</span><span>${esc(it.addr)}</span></li>`).join('')}</ul>
+      </div>`;
+    const f = (D.map.floors || []).find((x) => x.label === z.floor);
+    if (!f) { $('eat-map').hidden = true; return; }
+    const svg = buildFloorSvg(f, false);
+    svg.setAttribute('aria-label', `${f.label} 배치도 — ${z.badge || '취식 가능 존'} 표시`);
+    const zone = (f.zones || []).find((x) => x.type === z.highlight);
+    if (zone) {
+      const cx = zone.x + zone.w / 2, cy = zone.y + zone.h / 2, rx = zone.w / 2 + 8, ry = zone.h / 2 + 6;
+      const g = el('g', { class: 'eat-ring' });
+      g.appendChild(el('ellipse', { cx, cy, rx, ry }));
+      const bw = 70, bh = 18, bx = Math.min(cx + rx - bw + 10, (f.viewBox || [0, 0, 390, 300])[0] + (f.viewBox || [0, 0, 390, 300])[2] - bw - 4), by = cy - ry - 6;
+      g.appendChild(el('rect', { class: 'badge', x: bx, y: by, width: bw, height: bh, rx: 4 }));
+      g.appendChild(label(bx + bw / 2, by + bh / 2, z.badge || '취식 가능 존', 'badge-lb', 12, 11));
+      svg.appendChild(g);
+    }
+    $('eat-map').appendChild(svg);
   })();
 
   /* 이벤트 — 설명의 "라벨: 내용" 줄은 카드 그리드로, 나머지 줄은 문단으로 */
